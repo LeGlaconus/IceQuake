@@ -26,7 +26,7 @@
 #ifndef _SND_CODEC_H_
 #define _SND_CODEC_H_
 
-typedef struct snd_info_s
+struct snd_info_t
 {
 	int rate;
 	int bits, width;
@@ -35,18 +35,19 @@ typedef struct snd_info_s
 	int blocksize;
 	int size;
 	int dataofs;
-} snd_info_t;
+};
 
-typedef enum {
+enum  stream_status_t
+{
 	STREAM_NONE = -1,
 	STREAM_INIT,
 	STREAM_PAUSE,
 	STREAM_PLAY
-} stream_status_t;
+};
 
-typedef struct snd_codec_s snd_codec_t;
+struct snd_codec_t;
 
-typedef struct snd_stream_s
+struct snd_stream_t
 {
 	fshandle_t fh;
 	qboolean pak;
@@ -56,11 +57,11 @@ typedef struct snd_stream_s
 	snd_codec_t *codec;	/* codec handling this stream */
 	qboolean loop;
 	void *priv;		/* data private to the codec. */
-} snd_stream_t;
+};
 
 
-void S_CodecInit (void);
-void S_CodecShutdown (void);
+void S_CodecInit ();
+void S_CodecShutdown ();
 
 /* Callers of the following S_CodecOpenStream* functions
  * are reponsible for attaching any path to the filename */
@@ -85,19 +86,22 @@ int S_CodecJumpToOrder (snd_stream_t *stream, int to);
 snd_stream_t *S_CodecUtilOpen(const char *filename, snd_codec_t *codec, qboolean loop);
 void S_CodecUtilClose(snd_stream_t **stream);
 
+enum
+{
+	CODECTYPE_NONE		= 0,
+	CODECTYPE_MID		= (1U << 0),
+	CODECTYPE_MOD		= (1U << 1),
+	CODECTYPE_FLAC		= (1U << 2),
+	CODECTYPE_WAV		= (1U << 3),
+	CODECTYPE_MP3		= (1U << 4),
+	CODECTYPE_VORBIS	= (1U << 5),
+	CODECTYPE_OPUS		= (1U << 6),
+	CODECTYPE_UMX		= (1U << 7),
 
-#define CODECTYPE_NONE		0
-#define CODECTYPE_MID		(1U << 0)
-#define CODECTYPE_MOD		(1U << 1)
-#define CODECTYPE_FLAC		(1U << 2)
-#define CODECTYPE_WAV		(1U << 3)
-#define CODECTYPE_MP3		(1U << 4)
-#define CODECTYPE_VORBIS	(1U << 5)
-#define CODECTYPE_OPUS		(1U << 6)
-#define CODECTYPE_UMX		(1U << 7)
+	CODECTYPE_WAVE		= CODECTYPE_WAV,
+	CODECTYPE_MIDI		= CODECTYPE_MID,
+};
 
-#define CODECTYPE_WAVE		CODECTYPE_WAV
-#define CODECTYPE_MIDI		CODECTYPE_MID
 
 int S_CodecIsAvailable (unsigned int type);
 	/* return 1 if available, 0 if codec failed init

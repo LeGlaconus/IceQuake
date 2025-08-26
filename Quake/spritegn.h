@@ -68,11 +68,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // must match definition in modelgen.h
 #ifndef SYNCTYPE_T
 #define SYNCTYPE_T
-typedef enum {ST_SYNC=0, ST_RAND } synctype_t;
+enum synctype_t
+{
+	ST_SYNC=0,
+	ST_RAND 
+};
 #endif
 
 // TODO: shorten these?
-typedef struct {
+struct dsprite_t
+{
 	int			ident;
 	int			version;
 	int			type;
@@ -82,36 +87,49 @@ typedef struct {
 	int			numframes;
 	float		beamlength;
 	synctype_t	synctype;
-} dsprite_t;
+};
 
-#define SPR_VP_PARALLEL_UPRIGHT		0
-#define SPR_FACING_UPRIGHT			1
-#define SPR_VP_PARALLEL				2
-#define SPR_ORIENTED				3
-#define SPR_VP_PARALLEL_ORIENTED	4
+enum
+{
+	SPR_VP_PARALLEL_UPRIGHT		= 0,
+	SPR_FACING_UPRIGHT			,
+	SPR_VP_PARALLEL				,
+	SPR_ORIENTED				,
+	SPR_VP_PARALLEL_ORIENTED	,
+};
 
-typedef struct {
+
+struct dspriteframe_t
+{
 	int			origin[2];
 	int			width;
 	int			height;
-} dspriteframe_t;
+};
 
-typedef struct {
+struct dspritegroup_t
+{
 	int			numframes;
-} dspritegroup_t;
+};
 
-typedef struct {
+struct dspriteinterval_t
+{
 	float	interval;
-} dspriteinterval_t;
+};
 
-typedef enum { SPR_SINGLE=0, SPR_GROUP, SPR_ANGLED } spriteframetype_t;
+enum spriteframetype_t
+{ 
+	SPR_SINGLE=0,
+	SPR_GROUP,
+	SPR_ANGLED 
+};
 
-typedef struct {
+struct dspriteframetype_t
+{
 	spriteframetype_t	type;
-} dspriteframetype_t;
+};
 
-#define IDSPRITEHEADER	(('P'<<24)+('S'<<16)+('D'<<8)+'I')
-														// little-endian "IDSP"
+// little-endian "IDSP"
+#define IDSPRITEHEADER	(('P'<<24)+('S'<<16)+('D'<<8)+'I') 									
 
 #endif	/* __SPRITEGEN_H */
 

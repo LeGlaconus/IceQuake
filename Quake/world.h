@@ -23,13 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _QUAKE_WORLD_H
 #define _QUAKE_WORLD_H
 
-typedef struct
+struct plane_t
 {
 	vec3_t	normal;
 	float	dist;
-} plane_t;
+};
 
-typedef struct
+struct trace_t
 {
 	qboolean	allsolid;	// if true, plane is not valid
 	qboolean	startsolid;	// if true, the initial point was in a solid area
@@ -38,15 +38,16 @@ typedef struct
 	vec3_t	endpos;			// final position
 	plane_t	plane;			// surface normal at impact
 	edict_t	*ent;			// entity the surface is on
-} trace_t;
+};
 
+enum
+{
+	MOVE_NORMAL		= 0,
+	MOVE_NOMONSTERS	,
+	MOVE_MISSILE	,
+};
 
-#define	MOVE_NORMAL		0
-#define	MOVE_NOMONSTERS	1
-#define	MOVE_MISSILE	2
-
-
-void SV_ClearWorld (void);
+void SV_ClearWorld ();
 // called after the world model has been loaded, before linking any entities
 
 void SV_UnlinkEdict (edict_t *ent);

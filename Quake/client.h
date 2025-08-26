@@ -23,48 +23,57 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _CLIENT_H_
 #define _CLIENT_H_
 
+#include "render.h"
+#include "gl_model.h"
+#include "vid.h"
+#include "q_sound.h"
+
 // client.h
 
-typedef struct
+struct lightstyle_t
 {
 	int		length;
 	char	map[MAX_STYLESTRING];
 	char	average; //johnfitz
 	char	peak; //johnfitz
-} lightstyle_t;
+};
 
-typedef struct
+struct scoreboard_t
 {
 	char	name[MAX_SCOREBOARDNAME];
 	float	entertime;
 	int		frags;
 	int		colors;			// two 4 bit fields
 	byte	translations[VID_GRADES*256];
-} scoreboard_t;
+};
 
-typedef struct
+struct cshift_t
 {
 	int		destcolor[3];
 	int		percent;		// 0-256
-} cshift_t;
+};
 
-#define	CSHIFT_CONTENTS	0
-#define	CSHIFT_DAMAGE	1
-#define	CSHIFT_BONUS	2
-#define	CSHIFT_POWERUP	3
-#define	NUM_CSHIFTS		4
+enum
+{
+	CSHIFT_CONTENTS = 0,
+	CSHIFT_DAMAGE,
+	CSHIFT_BONUS,
+	CSHIFT_POWERUP,
+	
+	NUM_CSHIFTS,
+};
 
 #define	NAME_LENGTH	64
 
 
-//
+
 // client_state_t should hold all pieces of the client state
-//
+
 
 #define	SIGNONS		4			// signon messages to receive before connected
 
 #define	MAX_DLIGHTS		64 //johnfitz -- was 32
-typedef struct
+struct dlight_t
 {
 	vec3_t	origin;
 	float	radius;
@@ -73,41 +82,42 @@ typedef struct
 	float	minlight;			// don't add when contributing less
 	int		key;
 	vec3_t	color;				//johnfitz -- lit support via lordhavoc
-} dlight_t;
+};
 
 
 #define	MAX_BEAMS	32 //johnfitz -- was 24
-typedef struct
+struct beam_t
 {
-	int		entity;
-	struct qmodel_s	*model;
-	float	endtime;
-	vec3_t	start, end;
-} beam_t;
+	int			entity;
+	qmodel_t	*model;
+	float		endtime;
+	vec3_t		start, end;
+};
 
 #define	MAX_MAPSTRING	2048
 #define	MAX_DEMOS		8
 #define	MAX_DEMONAME	16
 
-typedef enum {
-ca_dedicated, 		// a dedicated server with no ability to start a client
-ca_disconnected, 	// full screen console with no connection
-ca_connected		// valid netcon, talking to a server
-} cactive_t;
+enum cactive_t
+{
+	ca_dedicated, 		// a dedicated server with no ability to start a client
+	ca_disconnected, 	// full screen console with no connection
+	ca_connected		// valid netcon, talking to a server
+};
 
-//
+
 // the client_static_t structure is persistant through an arbitrary number
 // of server connections
-//
-typedef struct
+
+struct client_static_t
 {
 	cactive_t	state;
 
 // personalization data sent to server
-	char		spawnparms[MAX_MAPSTRING];	// to restart a level
+	char		spawnparms[MAX_MAPSTRING];		// to restart a level
 
 // demo loop control
-	int		demonum;		// -1 = don't play demos
+	int			demonum;						// -1 = don't play demos
 	char		demos[MAX_DEMOS][MAX_DEMONAME];	// when not playing
 
 // demo recording info must be here, because record is started before
@@ -120,18 +130,18 @@ typedef struct
 	qboolean	demopaused;
 
 	qboolean	timedemo;
-	int		forcetrack;		// -1 = use normal cd track
+	int			forcetrack;			// -1 = use normal cd track
 	FILE		*demofile;
-	int		td_lastframe;		// to meter out one message a frame
-	int		td_startframe;		// host_framecount at start
+	int			td_lastframe;		// to meter out one message a frame
+	int			td_startframe;		// host_framecount at start
 	float		td_starttime;		// realtime at second frame of timedemo
 
 // connection information
-	int		signon;			// 0 to SIGNONS
-	struct qsocket_s	*netcon;
-	sizebuf_t	message;		// writing buffer to send to server
+	int			signon;				// 0 to SIGNONS
+	qsocket_t	*netcon;
+	sizebuf_t	message;			// writing buffer to send to server
 
-} client_static_t;
+};
 
 extern client_static_t	cls;
 
@@ -139,7 +149,7 @@ extern client_static_t	cls;
 // the client_state_t structure is wiped completely at every
 // server signon
 //
-typedef struct
+struct client_state_t
 {
 	int			movemessages;	// since connecting to this server
 								// throw out the first couple, so the player
@@ -200,8 +210,8 @@ typedef struct
 //
 // information that is static for the entire time connected to a server
 //
-	struct qmodel_s		*model_precache[MAX_MODELS];
-	struct sfx_s		*sound_precache[MAX_SOUNDS];
+	qmodel_t			*model_precache[MAX_MODELS];
+	sfx_t		*sound_precache[MAX_SOUNDS];
 
 	char		mapname[128];
 	char		levelname[128];	// for display on solo scoreboard //johnfitz -- was 40.
@@ -210,8 +220,8 @@ typedef struct
 	int			gametype;
 
 // refresh related state
-	struct qmodel_s	*worldmodel;	// cl_entitites[0].model
-	struct efrag_s	*free_efrags;
+	qmodel_t	*worldmodel;	// cl_entitites[0].model
+	efrag_t		*free_efrags;
 	int			num_efrags;
 	int			num_entities;	// held in cl_entities array
 	int			num_statics;	// held in cl_staticentities array
@@ -224,7 +234,7 @@ typedef struct
 
 	unsigned	protocol; //johnfitz
 	unsigned	protocolflags;
-} client_state_t;
+};
 
 
 //
@@ -305,14 +315,14 @@ void CL_Disconnect (void);
 void CL_Disconnect_f (void);
 void CL_NextDemo (void);
 
-//
+
 // cl_input
-//
-typedef struct
+
+struct kbutton_t
 {
 	int		down[2];		// key nums holding it down
 	int		state;			// low bit is down state
-} kbutton_t;
+};
 
 extern	kbutton_t	in_mlook, in_klook;
 extern 	kbutton_t 	in_strafe;

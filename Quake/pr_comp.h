@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef int	func_t;
 typedef int	string_t;
 
-typedef enum
+enum etype_t
 {
 	ev_bad = -1,
 	ev_void = 0,
@@ -38,19 +38,22 @@ typedef enum
 	ev_field,
 	ev_function,
 	ev_pointer
-} etype_t;
+};
 
-#define	OFS_NULL		0
-#define	OFS_RETURN		1
-#define	OFS_PARM0		4	// leave 3 ofs for each parm to hold vectors
-#define	OFS_PARM1		7
-#define	OFS_PARM2		10
-#define	OFS_PARM3		13
-#define	OFS_PARM4		16
-#define	OFS_PARM5		19
-#define	OFS_PARM6		22
-#define	OFS_PARM7		25
-#define	RESERVED_OFS	28
+enum
+{
+	OFS_NULL		= 0,
+	OFS_RETURN		= 1,
+	OFS_PARM0		= 4,	// leave 3 ofs for each parm to hold vectors
+	OFS_PARM1		= 7,
+	OFS_PARM2		= 10,
+	OFS_PARM3		= 13,
+	OFS_PARM4		= 16,
+	OFS_PARM5		= 19,
+	OFS_PARM6		= 22,
+	OFS_PARM7		= 25,
+	RESERVED_OFS	= 28,
+};
 
 
 enum
@@ -132,25 +135,25 @@ enum
 	OP_BITOR
 };
 
-typedef struct statement_s
+struct dstatement_t
 {
 	unsigned short	op;
 	short	a, b, c;
-} dstatement_t;
+};
 
-typedef struct
+struct ddef_t
 {
 	unsigned short	type;	// if DEF_SAVEGLOBAL bit is set
 				// the variable needs to be saved in savegames
 	unsigned short	ofs;
 	int		s_name;
-} ddef_t;
+};
 
 #define	DEF_SAVEGLOBAL	(1<<15)
 
 #define	MAX_PARMS	8
 
-typedef struct
+struct dfunction_t
 {
 	int		first_statement;	// negative numbers are builtins
 	int		parm_start;
@@ -163,11 +166,11 @@ typedef struct
 
 	int		numparms;
 	byte	parm_size[MAX_PARMS];
-} dfunction_t;
+};
 
 
 #define	PROG_VERSION	6
-typedef struct
+struct dprograms_t
 {
 	int		version;
 	int		crc;		// check of header file
@@ -191,7 +194,6 @@ typedef struct
 	int		numglobals;
 
 	int		entityfields;
-} dprograms_t;
+};
 
 #endif	/* __PR_COMP_H */
-

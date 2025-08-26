@@ -23,6 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _QUAKE_RENDER_H
 #define _QUAKE_RENDER_H
 
+#include "gl_model.h"
+#include "vid.h"
+#include "quakedef.h"
+
+struct qmodel_t;
+struct mnode_t;
+
+
 // refresh.h -- public interface to refresh functions
 
 #define	MAXCLIPPLANES	11
@@ -32,21 +40,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //=============================================================================
 
-typedef struct efrag_s
+struct entity_t;
+
+struct efrag_t
 {
-	struct efrag_s		*leafnext;
-	struct entity_s		*entity;
-} efrag_t;
+	efrag_t				*leafnext;
+	entity_t			*entity;
+};
 
-//johnfitz -- for lerping
-#define LERP_MOVESTEP	(1<<0) //this is a MOVETYPE_STEP entity, enable movement lerp
-#define LERP_RESETANIM	(1<<1) //disable anim lerping until next anim frame
-#define LERP_RESETANIM2	(1<<2) //set this and previous flag to disable anim lerping for two anim frames
-#define LERP_RESETMOVE	(1<<3) //disable movement lerping until next origin/angles change
-#define LERP_FINISH		(1<<4) //use lerpfinish time from server update instead of assuming interval of 0.1
-//johnfitz
+enum
+{
+	//johnfitz -- for lerping
+	LERP_MOVESTEP	= (1<<0), //this is a MOVETYPE_STEP entity, enable movement lerp
+	LERP_RESETANIM	= (1<<1), //disable anim lerping until next anim frame
+	LERP_RESETANIM2	= (1<<2), //set this and previous flag to disable anim lerping for two anim frames
+	LERP_RESETMOVE	= (1<<3), //disable movement lerping until next origin/angles change
+	LERP_FINISH		= (1<<4), //use lerpfinish time from server update instead of assuming interval of 0.1
+	//johnfitz
+};
 
-typedef struct entity_s
+
+struct entity_t
 {
 	qboolean				forcelink;		// model changed
 
@@ -59,8 +73,8 @@ typedef struct entity_s
 	vec3_t					origin;
 	vec3_t					msg_angles[2];	// last two updates (0 is newest)
 	vec3_t					angles;
-	struct qmodel_s			*model;			// NULL = no model
-	struct efrag_s			*efrag;			// linked list of efrags
+	qmodel_t				*model;			// NULL = no model
+	efrag_t					*efrag;			// linked list of efrags
 	int						frame;
 	float					syncbase;		// for client-side animations
 	byte					*colormap;
@@ -73,7 +87,7 @@ typedef struct entity_s
 	int						dlightbits;
 
 // FIXME: could turn these into a union
-	struct mnode_s			*topnode;		// for bmodels, first world node
+	mnode_t					*topnode;		// for bmodels, first world node
 											//  that splits bmodel, or NULL if
 											//  not split
 
@@ -91,10 +105,10 @@ typedef struct entity_s
 	vec3_t					currentorigin;	//johnfitz -- transform lerping
 	vec3_t					previousangles;	//johnfitz -- transform lerping
 	vec3_t					currentangles;	//johnfitz -- transform lerping
-} entity_t;
+};
 
 // !!! if this is changed, it must be changed in asm_draw.h too !!!
-typedef struct
+struct refdef_t
 {
 	vrect_t		vrect;				// subwindow in video for refresh
 									// FIXME: not need vrect next field here?
@@ -122,7 +136,7 @@ typedef struct
 	float		fov_x, fov_y;
 
 	int			ambientlight;
-} refdef_t;
+};
 
 
 //
@@ -135,21 +149,21 @@ extern	refdef_t	r_refdef;
 extern vec3_t	r_origin, vpn, vright, vup;
 
 
-void R_Init (void);
-void R_InitTextures (void);
-void R_InitEfrags (void);
-void R_RenderView (void);		// must set r_refdef first
+void R_Init ();
+void R_InitTextures ();
+void R_InitEfrags ();
+void R_RenderView ();		// must set r_refdef first
 void R_ViewChanged (vrect_t *pvrect, int lineadj, float aspect);
 								// called whenever r_refdef or vid change
-//void R_InitSky (struct texture_s *mt);	// called at level load
+//void R_InitSky (texture_t *mt);	// called at level load
 
-void R_CheckEfrags (void); //johnfitz
+void R_CheckEfrags (); //johnfitz
 void R_AddEfrags (entity_t *ent);
 
-void R_NewMap (void);
+void R_NewMap ();
 
 
-void R_ParseParticleEffect (void);
+void R_ParseParticleEffect ();
 void R_RunParticleEffect (vec3_t org, vec3_t dir, int color, int count);
 void R_RocketTrail (vec3_t start, vec3_t end, int type);
 void R_EntityParticles (entity_t *ent);
@@ -159,7 +173,7 @@ void R_ParticleExplosion2 (vec3_t org, int colorStart, int colorLength);
 void R_LavaSplash (vec3_t org);
 void R_TeleportSplash (vec3_t org);
 
-void R_PushDlights (void);
+void R_PushDlights ();
 
 
 //
@@ -168,8 +182,8 @@ void R_PushDlights (void);
 extern	int		reinit_surfcache;	// if 1, surface cache is currently empty and
 
 int	D_SurfaceCacheForRes (int width, int height);
-void D_FlushCaches (void);
-void D_DeleteSurfaceCache (void);
+void D_FlushCaches ();
+void D_DeleteSurfaceCache ();
 void D_InitCaches (void *buffer, int size);
 void R_SetVrect (vrect_t *pvrect, vrect_t *pvrectin, int lineadj);
 

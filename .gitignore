@@ -1,2 +1,8 @@
 Windows/VisualStudio/.vs/
 Windows/VisualStudio/Build-quakespasm-sdl2/
+Windows/VisualStudio/Build-icequake/
+
+*.obj
+*.tlog
+*.log
+*.pdb

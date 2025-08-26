@@ -110,9 +110,10 @@ COMPILE_TIME_ASSERT(int, sizeof(int) == 4);
 COMPILE_TIME_ASSERT(short, sizeof(short) == 2);
 
 /* make sure enums are the size of ints for structure packing */
-typedef enum {
-	THE_DUMMY_VALUE
-} THE_DUMMY_ENUM;
+enum THE_DUMMY_ENUM
+{
+	THE_DUMMY_VALUE,
+};
 COMPILE_TIME_ASSERT(enum, sizeof(THE_DUMMY_ENUM) == sizeof(int));
 
 

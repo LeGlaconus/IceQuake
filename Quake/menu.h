@@ -23,7 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _QUAKE_MENU_H
 #define _QUAKE_MENU_H
 
-enum m_state_e {
+enum m_state_e 
+{
 	m_none,
 	m_main,
 	m_singleplayer,
@@ -43,8 +44,8 @@ enum m_state_e {
 	m_slist
 };
 
-extern enum m_state_e m_state;
-extern enum m_state_e m_return_state;
+extern m_state_e m_state;
+extern m_state_e m_return_state;
 
 extern qboolean m_entersound;
 

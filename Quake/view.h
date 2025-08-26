@@ -28,13 +28,13 @@ extern	cvar_t		vid_contrast;
 
 extern float v_blend[4];
 
-void V_Init (void);
-void V_RenderView (void);
-void V_CalcBlend (void);
-void V_UpdateBlend (void);
+void V_Init ();
+void V_RenderView ();
+void V_CalcBlend ();
+void V_UpdateBlend ();
 float V_CalcRoll (vec3_t angles, vec3_t velocity);
-void V_RestoreAngles (void);
-//void V_UpdatePalette (void); //johnfitz
+void V_RestoreAngles ();
+//void V_UpdatePalette (); //johnfitz
 
 #endif	/* _QUAKE_VIEW_H */
 

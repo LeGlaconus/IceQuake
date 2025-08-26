@@ -27,39 +27,48 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //   TYPES
 //===============
 
-#define	CMP_NONE		0
-#define	CMP_LZSS		1
+enum
+{
+	CMP_NONE		= 0,
+	CMP_LZSS		,
+};
 
-#define	TYP_NONE		0
-#define	TYP_LABEL		1
+enum
+{
+	TYP_NONE			= 0,
+	TYP_LABEL			,
 
-#define	TYP_LUMPY		64				// 64 + grab command number
-#define	TYP_PALETTE		64
-#define	TYP_QTEX		65
-#define	TYP_QPIC		66
-#define	TYP_SOUND		67
-#define	TYP_MIPTEX_PALETTE	67
-#define	TYP_MIPTEX		68
+	TYP_LUMPY			= 64,				// 64 + grab command number
+	TYP_PALETTE			= 64,
+	TYP_QTEX			,
+	TYP_QPIC			,
+	TYP_SOUND			,
+	TYP_MIPTEX_PALETTE	= 67,
+	TYP_MIPTEX			,
+};
+
+
+
 
 #define WADID		('W' | ('A' << 8) | ('D' << 16) | ('2' << 24))
 #define WADID_VALVE	('W' | ('A' << 8) | ('D' << 16) | ('3' << 24))
 
 #define	WADFILENAME "gfx.wad" //johnfitz -- filename is now hard-coded for honesty
 
-typedef struct
+struct qpic_t
 {
 	int			width, height;
 	byte		data[4];			// variably sized
-} qpic_t;
+};
 
-typedef struct
+struct wadinfo_t
 {
 	char		identification[4];		// should be WAD2 or 2DAW
 	int			numlumps;
 	int			infotableofs;
-} wadinfo_t;
+};
 
-typedef struct
+struct lumpinfo_t
 {
 	int			filepos;
 	int			disksize;
@@ -68,23 +77,23 @@ typedef struct
 	char		compression;
 	char		pad1, pad2;
 	char		name[16];				// must be null terminated
-} lumpinfo_t;
+};
 
-typedef struct wad_s
+struct wad_t
 {
 	char		name[MAX_QPATH];
 	int			id;
 	fshandle_t	fh;
 	int			numlumps;
 	lumpinfo_t	*lumps;
-	struct wad_s	*next;
-} wad_t;
+	wad_t	*next;
+};
 
 extern	int			wad_numlumps;
 extern	lumpinfo_t	*wad_lumps;
 extern	byte		*wad_base;
 
-void	W_LoadWadFile (void); //johnfitz -- filename is now hard-coded for honesty
+void	W_LoadWadFile (); //johnfitz -- filename is now hard-coded for honesty
 void	W_CleanupName (const char *in, char *out);
 void	*W_GetLumpName (const char *name);
 void	*W_GetLumpNum (int num);

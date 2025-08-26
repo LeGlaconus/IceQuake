@@ -52,52 +52,60 @@ void R_TimeRefresh_f (void);
 void R_ReadPointFile_f (void);
 texture_t *R_TextureAnimation (texture_t *base, int frame);
 
-typedef struct surfcache_s
+struct surfcache_t
 {
-	struct surfcache_s	*next;
-	struct surfcache_s 	**owner;		// NULL is an empty chunk of memory
-	int			lightadj[MAXLIGHTMAPS]; // checked for strobe flush
-	int			dlight;
-	int			size;		// including header
+	surfcache_t		*next;
+	surfcache_t 	**owner;		// NULL is an empty chunk of memory
+	int				lightadj[MAXLIGHTMAPS]; // checked for strobe flush
+	int				dlight;
+	int				size;		// including header
 	unsigned		width;
 	unsigned		height;		// DEBUG only needed for debug
 	float			mipscale;
-	struct texture_s	*texture;	// checked for animating textures
+	texture_t		*texture;	// checked for animating textures
 	byte			data[4];	// width*height elements
-} surfcache_t;
+};
 
 
-typedef struct
+struct drawsurf_t
 {
 	pixel_t		*surfdat;	// destination for generated surface
-	int		rowbytes;	// destination logical width in bytes
+	int			rowbytes;	// destination logical width in bytes
 	msurface_t	*surf;		// description for surface to generate
 	fixed8_t	lightadj[MAXLIGHTMAPS];
 							// adjust for lightmap levels for dynamic lighting
 	texture_t	*texture;	// corrected for animating textures
-	int		surfmip;	// mipmapped ratio of surface texels / world pixels
-	int		surfwidth;	// in mipmapped texels
-	int		surfheight;	// in mipmapped texels
-} drawsurf_t;
+	int			surfmip;	// mipmapped ratio of surface texels / world pixels
+	int			surfwidth;	// in mipmapped texels
+	int			surfheight;	// in mipmapped texels
+};
 
 
-typedef enum {
-	pt_static, pt_grav, pt_slowgrav, pt_fire, pt_explode, pt_explode2, pt_blob, pt_blob2
-} ptype_t;
+enum  ptype_t
+{
+	pt_static,
+	pt_grav,
+	pt_slowgrav,
+	pt_fire,
+	pt_explode,
+	pt_explode2,
+	pt_blob,
+	pt_blob2,
+};
 
 // !!! if this is changed, it must be changed in d_ifacea.h too !!!
-typedef struct particle_s
+struct particle_t
 {
 // driver-usable fields
 	vec3_t		org;
 	float		color;
 // drivers never touch the following fields
-	struct particle_s	*next;
+	particle_t	*next;
 	vec3_t		vel;
 	float		ramp;
 	float		die;
 	ptype_t		type;
-} particle_t;
+};
 
 
 //====================================================
@@ -282,7 +290,9 @@ extern int rs_dynamiclightmaps, rs_brushpasses, rs_aliaspasses, rs_skypasses;
 
 //johnfitz -- track developer statistics that vary every frame
 extern cvar_t devstats;
-typedef struct {
+
+struct devstats_t
+{
 	int		packetsize;
 	int		edicts;
 	int		visedicts;
@@ -290,16 +300,17 @@ typedef struct {
 	int		tempents;
 	int		beams;
 	int		dlights;
-} devstats_t;
+};
 extern devstats_t dev_stats, dev_peakstats;
 
 //ohnfitz -- reduce overflow warning spam
-typedef struct {
+struct overflowtimes_t
+{
 	double	packetsize;
 	double	efrags;
 	double	beams;
 	double	varstring;
-} overflowtimes_t;
+};
 extern overflowtimes_t dev_overflows; //this stores the last time overflow messages were displayed, not the last time overflows occured
 #define CONSOLE_RESPAM_TIME 3 // seconds between repeated warning messages
 
@@ -309,10 +320,11 @@ extern int gl_lightmap_format, lightmap_bytes;
 #define LMBLOCK_WIDTH	256	//FIXME: make dynamic. if we have a decent card there's no real reason not to use 4k or 16k (assuming there's no lightstyles/dynamics that need uploading...)
 #define LMBLOCK_HEIGHT	256 //Alternatively, use texture arrays, which would avoid the need to switch textures as often.
 
-typedef struct glRect_s {
+struct glRect_t 
+{
 	unsigned short l,t,w,h;
-} glRect_t;
-struct lightmap_s
+};
+struct lightmap_t
 {
 	gltexture_t *texture;
 	glpoly_t	*polys;
@@ -323,17 +335,18 @@ struct lightmap_s
 	// main memory so texsubimage can update properly
 	byte		*data;//[4*LMBLOCK_WIDTH*LMBLOCK_HEIGHT];
 };
-extern struct lightmap_s *lightmaps;
+extern lightmap_t *lightmaps;
 extern int lightmap_count;	//allocated lightmaps
 
 extern int gl_warpimagesize; //johnfitz -- for water warp
 
 extern qboolean r_drawflat_cheatsafe, r_fullbright_cheatsafe, r_lightmap_cheatsafe, r_drawworld_cheatsafe; //johnfitz
 
-typedef struct glsl_attrib_binding_s {
+struct glsl_attrib_binding_t
+{
 	const char *name;
 	GLuint attrib;
-} glsl_attrib_binding_t;
+};
 
 extern float	map_wateralpha, map_lavaalpha, map_telealpha, map_slimealpha; //ericw
 

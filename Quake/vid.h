@@ -32,62 +32,67 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GAMMA_MAX	3.0
 
 // moved here for global use -- kristian
-typedef enum { MS_UNINIT, MS_WINDOWED, MS_FULLSCREEN } modestate_t;
+enum modestate_t
+{
+	MS_UNINIT,
+	MS_WINDOWED,
+	MS_FULLSCREEN,
+};
 
 extern modestate_t	modestate;
 
 // a pixel can be one, two, or four bytes
 typedef byte pixel_t;
 
-typedef struct vrect_s
+struct vrect_t
 {
 	int	x, y, width, height;
-	struct vrect_s	*pnext;
-} vrect_t;
+	vrect_t	*pnext;
+};
 
-typedef struct
+struct viddef_t
 {
-	pixel_t		*buffer;	// invisible buffer
-	pixel_t		*colormap;	// 256 * VID_GRADES size
+	pixel_t			*buffer;	// invisible buffer
+	pixel_t			*colormap;	// 256 * VID_GRADES size
 	unsigned short	*colormap16;	// 256 * VID_GRADES size
-	int		fullbright;	// index of first fullbright color
-	int		rowbytes;	// may be > width if displayed in a window
-	int		width;
-	int		height;
-	float		aspect;		// width / height -- < 0 is taller than wide
-	int		numpages;
-	int		recalc_refdef;	// if true, recalc vid-based stuff
-	pixel_t		*conbuffer;
-	int		conrowbytes;
-	int		conwidth;
-	int		conheight;
-	int		maxwarpwidth;
-	int		maxwarpheight;
-	pixel_t		*direct;	// direct drawing to framebuffer, if not NULL
-} viddef_t;
+	int				fullbright;	// index of first fullbright color
+	int				rowbytes;	// may be > width if displayed in a window
+	int				width;
+	int				height;
+	float			aspect;		// width / height -- < 0 is taller than wide
+	int				numpages;
+	int				recalc_refdef;	// if true, recalc vid-based stuff
+	pixel_t			*conbuffer;
+	int				conrowbytes;
+	int				conwidth;
+	int				conheight;
+	int				maxwarpwidth;
+	int				maxwarpheight;
+	pixel_t			*direct;	// direct drawing to framebuffer, if not NULL
+};
 
 extern	viddef_t	vid;				// global video state
 
-extern void (*vid_menudrawfn)(void);
+extern void (*vid_menudrawfn)();
 extern void (*vid_menukeyfn)(int key);
-extern void (*vid_menucmdfn)(void); //johnfitz
+extern void (*vid_menucmdfn)(); //johnfitz
 
-void	VID_Init (void); //johnfitz -- removed palette from argument list
+void	VID_Init (); //johnfitz -- removed palette from argument list
 
-void	VID_Shutdown (void);
+void	VID_Shutdown ();
 // Called at shutdown
 
 void	VID_Update (vrect_t *rects);
 // flushes the given rectangles from the view buffer to the screen
 
-void VID_SyncCvars (void);
+void VID_SyncCvars ();
 
 void VID_Toggle (void);
 
-void *VID_GetWindow (void);
-qboolean VID_HasMouseOrInputFocus (void);
-qboolean VID_IsMinimized (void);
-void	VID_Lock (void);
+void *VID_GetWindow ();
+qboolean VID_HasMouseOrInputFocus ();
+qboolean VID_IsMinimized ();
+void	VID_Lock ();
 
 #endif	/* __VID_DEFS_H */
 

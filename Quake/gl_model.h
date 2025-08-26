@@ -25,6 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "modelgen.h"
 #include "spritegn.h"
+#include "client.h"
+
+#include "gl_texmgr.h"
 
 /*
 
@@ -35,13 +38,16 @@ m*_t structures are in-memory
 
 // entity effects
 
-#define	EF_BRIGHTFIELD			1
-#define	EF_MUZZLEFLASH 			2
-#define	EF_BRIGHTLIGHT 			4
-#define	EF_DIMLIGHT 			8
-#define EF_QEX_QUADLIGHT		16	// 2021 rerelease
-#define EF_QEX_PENTALIGHT		32	// 2021 rerelease
-#define EF_QEX_CANDLELIGHT		64	// 2021 rerelease
+enum
+{
+//	EF_BRIGHTFIELD		= 1,
+//	EF_MUZZLEFLASH 		= 2,
+//	EF_BRIGHTLIGHT 		= 4,
+//	EF_DIMLIGHT 		= 8,
+	EF_QEX_QUADLIGHT	= 16,	// 2021 rerelease
+	EF_QEX_PENTALIGHT	= 32,	// 2021 rerelease
+	EF_QEX_CANDLELIGHT	= 64,	// 2021 rerelease
+};
 
 
 /*
@@ -57,90 +63,97 @@ BRUSH MODELS
 // in memory representation
 //
 // !!! if this is changed, it must be changed in asm_draw.h too !!!
-typedef struct
+struct mvertex_t
 {
 	vec3_t		position;
-} mvertex_t;
+};
 
-#define	SIDE_FRONT	0
-#define	SIDE_BACK	1
-#define	SIDE_ON		2
-
+enum
+{
+	SIDE_FRONT = 0,
+	SIDE_BACK,
+	SIDE_ON,
+};
 
 // plane_t structure
 // !!! if this is changed, it must be changed in asm_i386.h too !!!
-typedef struct mplane_s
+struct mplane_t
 {
 	vec3_t	normal;
 	float	dist;
 	byte	type;			// for texture axis selection and fast side tests
 	byte	signbits;		// signx + signy<<1 + signz<<1
 	byte	pad[2];
-} mplane_t;
+};
 
 // ericw -- each texture has two chains, so we can clear the model chains
 //          without affecting the world
-typedef enum {
+enum texchain_t
+{
 	chain_world = 0,
-	chain_model = 1
-} texchain_t;
+	chain_model,
+};
 
-typedef struct texture_s
+struct msurface_t;
+
+struct texture_t
 {
 	char				name[16];
 	unsigned			width, height;
 	unsigned			shift;		// Q64
-	struct gltexture_s	*gltexture; //johnfitz -- pointer to gltexture
-	struct gltexture_s	*fullbright; //johnfitz -- fullbright mask texture
-	struct gltexture_s	*warpimage; //johnfitz -- for water animation
+	gltexture_t			*gltexture; //johnfitz -- pointer to gltexture
+	gltexture_t			*fullbright; //johnfitz -- fullbright mask texture
+	gltexture_t			*warpimage; //johnfitz -- for water animation
 	qboolean			update_warp; //johnfitz -- update warp this frame
-	struct msurface_s	*texturechains[2];	// for texture chains
+	msurface_t			*texturechains[2];	// for texture chains
 	int					anim_total;				// total tenths in sequence ( 0 = no)
 	int					anim_min, anim_max;		// time for this frame min <=time< max
-	struct texture_s	*anim_next;		// in the animation sequence
-	struct texture_s	*alternate_anims;	// bmodels in frmae 1 use these
-} texture_t;
+	texture_t			*anim_next;		// in the animation sequence
+	texture_t			*alternate_anims;	// bmodels in frmae 1 use these
+};
 
-
-#define	SURF_PLANEBACK		2
-#define	SURF_DRAWSKY		4
-#define SURF_DRAWSPRITE		8
-#define SURF_DRAWTURB		0x10
-#define SURF_DRAWTILED		0x20
-#define SURF_DRAWBACKGROUND	0x40
-#define SURF_UNDERWATER		0x80
-#define SURF_NOTEXTURE		0x100 //johnfitz
-#define SURF_DRAWFENCE		0x200
-#define SURF_DRAWLAVA		0x400
-#define SURF_DRAWSLIME		0x800
-#define SURF_DRAWTELE		0x1000
-#define SURF_DRAWWATER		0x2000
+enum
+{
+	SURF_PLANEBACK		= 2,
+	SURF_DRAWSKY		= 4,
+	SURF_DRAWSPRITE		= 8,
+	SURF_DRAWTURB		= 0x10,
+	SURF_DRAWTILED		= 0x20,
+	SURF_DRAWBACKGROUND	= 0x40,
+	SURF_UNDERWATER		= 0x80,
+	SURF_NOTEXTURE		= 0x100, //johnfitz
+	SURF_DRAWFENCE		= 0x200,
+	SURF_DRAWLAVA		= 0x400,
+	SURF_DRAWSLIME		= 0x800,
+	SURF_DRAWTELE		= 0x1000,
+	SURF_DRAWWATER		= 0x2000,
+};
 
 // !!! if this is changed, it must be changed in asm_draw.h too !!!
-typedef struct
+struct medge_t
 {
 	unsigned int	v[2];
 	unsigned int	cachededgeoffset;
-} medge_t;
+};
 
-typedef struct
+struct mtexinfo_t
 {
 	float		vecs[2][4];
 	texture_t	*texture;
 	int			flags;
-} mtexinfo_t;
+};
 
 #define	VERTEXSIZE	7
 
-typedef struct glpoly_s
+struct glpoly_t
 {
-	struct	glpoly_s	*next;
-	struct	glpoly_s	*chain;
-	int		numverts;
-	float	verts[4][VERTEXSIZE];	// variable sized (xyz s1t1 s2t2)
-} glpoly_t;
+	glpoly_t	*next;
+	glpoly_t	*chain;
+	int			numverts;
+	float		verts[4][VERTEXSIZE];	// variable sized (xyz s1t1 s2t2)
+};
 
-typedef struct msurface_s
+struct msurface_t
 {
 	int			visframe;		// should be drawn when node is crossed
 	float		mins[3];		// johnfitz -- for frustum culling
@@ -158,15 +171,15 @@ typedef struct msurface_s
 	int			light_s, light_t;	// gl lightmap coordinates
 
 	glpoly_t	*polys;				// multiple if warped
-	struct	msurface_s	*texturechain;
+	msurface_t	*texturechain;
 
 	mtexinfo_t	*texinfo;
 
-	int		vbo_firstvert;		// index of this surface's first vert in the VBO
+	int			vbo_firstvert;		// index of this surface's first vert in the VBO
 
 // lighting info
 	int			dlightframe;
-	unsigned int		dlightbits[(MAX_DLIGHTS + 31) >> 5];
+	unsigned int dlightbits[(MAX_DLIGHTS + 31) >> 5];
 		// int is 32 bits, need an array for MAX_DLIGHTS > 32
 
 	int			lightmaptexturenum;
@@ -174,9 +187,9 @@ typedef struct msurface_s
 	int			cached_light[MAXLIGHTMAPS];	// values currently used in lightmap
 	qboolean	cached_dlight;				// true if dynamic light in cache
 	byte		*samples;		// [numstyles*surfsize]
-} msurface_t;
+};
 
-typedef struct mnode_s
+struct mnode_t
 {
 // common with leaf
 	int			contents;		// 0, to differentiate from leafs
@@ -184,19 +197,19 @@ typedef struct mnode_s
 
 	float		minmaxs[6];		// for bounding box culling
 
-	struct mnode_s	*parent;
+	mnode_t		*parent;
 
 // node specific
 	mplane_t	*plane;
-	struct mnode_s	*children[2];
+	mnode_t		*children[2];
 
 	unsigned int		firstsurface;
 	unsigned int		numsurfaces;
-} mnode_t;
+};
 
 
 
-typedef struct mleaf_s
+struct mleaf_t
 {
 // common with node
 	int			contents;		// wil be a negative contents number
@@ -204,7 +217,7 @@ typedef struct mleaf_s
 
 	float		minmaxs[6];		// for bounding box culling
 
-	struct mnode_s	*parent;
+	mnode_t		*parent;
 
 // leaf specific
 	byte		*compressed_vis;
@@ -214,18 +227,18 @@ typedef struct mleaf_s
 	int			nummarksurfaces;
 	int			key;			// BSP sequence number for leaf's contents
 	byte		ambient_sound_level[NUM_AMBIENTS];
-} mleaf_t;
+};
 
 //johnfitz -- for clipnodes>32k
-typedef struct mclipnode_s
+struct mclipnode_t
 {
 	int			planenum;
 	int			children[2]; // negative numbers are contents
-} mclipnode_t;
+};
 //johnfitz
 
 // !!! if this is changed, it must be changed in asm_i386.h too !!!
-typedef struct
+struct hull_t
 {
 	mclipnode_t	*clipnodes; //johnfitz -- was dclipnode_t
 	mplane_t	*planes;
@@ -233,7 +246,7 @@ typedef struct
 	int			lastclipnode;
 	vec3_t		clip_mins;
 	vec3_t		clip_maxs;
-} hull_t;
+};
 
 /*
 ==============================================================================
@@ -245,28 +258,28 @@ SPRITE MODELS
 
 
 // FIXME: shorten these?
-typedef struct mspriteframe_s
+struct mspriteframe_t
 {
 	int					width, height;
 	float				up, down, left, right;
 	float				smax, tmax; //johnfitz -- image might be padded
-	struct gltexture_s	*gltexture;
-} mspriteframe_t;
+	gltexture_t			*gltexture;
+};
 
-typedef struct
+struct mspritegroup_t
 {
 	int				numframes;
 	float			*intervals;
 	mspriteframe_t	*frames[1];
-} mspritegroup_t;
+};
 
-typedef struct
+struct mspriteframedesc_t
 {
 	spriteframetype_t	type;
 	mspriteframe_t		*frameptr;
-} mspriteframedesc_t;
+};
 
-typedef struct
+struct msprite_t
 {
 	int					type;
 	int					maxwidth;
@@ -275,7 +288,7 @@ typedef struct
 	float				beamlength;		// remove?
 	void				*cachespot;		// remove?
 	mspriteframedesc_t	frames[1];
-} msprite_t;
+};
 
 
 /*
@@ -289,25 +302,25 @@ Alias models are position independent, so the cache manager can move them.
 
 //-- from RMQEngine
 // split out to keep vertex sizes down
-typedef struct aliasmesh_s
+struct aliasmesh_t
 {
 	float st[2];
 	unsigned short vertindex;
-} aliasmesh_t;
+};
 
-typedef struct meshxyz_s
+struct meshxyz_t
 {
 	byte xyz[4];
 	signed char normal[4];
-} meshxyz_t;
+};
 
-typedef struct meshst_s
+struct meshst_t
 {
 	float st[2];
-} meshst_t;
+};
 //--
 
-typedef struct
+struct maliasframedesc_t
 {
 	int					firstpose;
 	int					numposes;
@@ -316,31 +329,33 @@ typedef struct
 	trivertx_t			bboxmax;
 	int					frame;
 	char				name[16];
-} maliasframedesc_t;
+};
 
-typedef struct
+struct maliasgroupframedesc_t
 {
 	trivertx_t			bboxmin;
 	trivertx_t			bboxmax;
 	int					frame;
-} maliasgroupframedesc_t;
+};
 
-typedef struct
+struct maliasgroup_t
 {
 	int						numframes;
 	int						intervals;
 	maliasgroupframedesc_t	frames[1];
-} maliasgroup_t;
+};
 
 // !!! if this is changed, it must be changed in asm_draw.h too !!!
-typedef struct mtriangle_s {
+struct mtriangle_t
+{
 	int					facesfront;
 	int					vertindex[3];
-} mtriangle_t;
+};
 
 
 #define	MAX_SKINS	32
-typedef struct {
+struct aliashdr_t
+{
 	int			ident;
 	int			version;
 	vec3_t		scale;
@@ -369,11 +384,11 @@ typedef struct {
 	int					poseverts;
 	int					posedata;	// numposes*poseverts trivert_t
 	int					commands;	// gl command list with embedded s/t
-	struct gltexture_s	*gltextures[MAX_SKINS][4]; //johnfitz
-	struct gltexture_s	*fbtextures[MAX_SKINS][4]; //johnfitz
+	gltexture_t			*gltextures[MAX_SKINS][4]; //johnfitz
+	gltexture_t			*fbtextures[MAX_SKINS][4]; //johnfitz
 	int					texels[MAX_SKINS];	// only for player skins
 	maliasframedesc_t	frames[1];	// variable sized
-} aliashdr_t;
+};
 
 #define	MAXALIASVERTS	2000 //johnfitz -- was 1024
 #define	MAXALIASFRAMES	1024 //spike -- was 256
@@ -389,25 +404,37 @@ extern	trivertx_t	*poseverts[MAXALIASFRAMES];
 // Whole model
 //
 
-typedef enum {mod_brush, mod_sprite, mod_alias} modtype_t;
+enum modtype_t
+{
+	mod_brush,
+	mod_sprite,
+	mod_alias,
+};
 
-#define	EF_ROCKET	1			// leave a trail
-#define	EF_GRENADE	2			// leave a trail
-#define	EF_GIB		4			// leave a trail
-#define	EF_ROTATE	8			// rotate (bonus items)
-#define	EF_TRACER	16			// green split trail
-#define	EF_ZOMGIB	32			// small blood trail
-#define	EF_TRACER2	64			// orange split trail + rotate
-#define	EF_TRACER3	128			// purple trail
+
+enum
+{
+	EF_ROCKET	= 1,		// leave a trail
+	EF_GRENADE	= 2,		// leave a trail
+	EF_GIB		= 4,		// leave a trail
+	EF_ROTATE	= 8,		// rotate (bonus items)
+	EF_TRACER	= 16,		// green split trail
+	EF_ZOMGIB	= 32,		// small blood trail
+	EF_TRACER2	= 64,		// orange split trail + rotate
+	EF_TRACER3	= 128,		// purple trail
+};
 #define	MF_HOLEY	(1u<<14)		// MarkV/QSS -- make index 255 transparent on mdl's
 
 //johnfitz -- extra flags for rendering
-#define	MOD_NOLERP		256		//don't lerp when animating
-#define	MOD_NOSHADOW	512		//don't cast a shadow
-#define	MOD_FBRIGHTHACK	1024	//when fullbrights are disabled, use a hack to render this model brighter
+enum
+{
+	MOD_NOLERP		= 256,	//don't lerp when animating
+	MOD_NOSHADOW	= 512,	//don't cast a shadow
+	MOD_FBRIGHTHACK	= 1024,	//when fullbrights are disabled, use a hack to render this model brighter
+};
 //johnfitz
 
-typedef struct qmodel_s
+struct qmodel_t
 {
 	char		name[MAX_QPATH];
 	unsigned int	path_id;		// path id of the game directory
@@ -485,9 +512,9 @@ typedef struct qmodel_s
 
 	int			bspversion;
 	qboolean	haslitwater;
-//
+
 // alias model
-//
+
 
 	GLuint		meshvbo;
 	GLuint		meshindexesvbo;
@@ -495,12 +522,12 @@ typedef struct qmodel_s
 	int			vboxyzofs;      // offset in vbo of hdr->numposes*hdr->numverts_vbo meshxyz_t
 	int			vbostofs;       // offset in vbo of hdr->numverts_vbo meshst_t
 
-//
+
 // additional model data
-//
+
 	cache_user_t	cache;		// only access through Mod_Extradata
 
-} qmodel_t;
+};
 
 //============================================================================
 

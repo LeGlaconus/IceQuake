@@ -22,31 +22,43 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _GL_TEXMAN_H
 #define _GL_TEXMAN_H
 
+#include "SDL_opengl.h"
+
 //gl_texmgr.h -- fitzquake's texture manager. manages opengl texture images
 
-#define TEXPREF_NONE			0x0000
-#define TEXPREF_MIPMAP			0x0001	// generate mipmaps
-// TEXPREF_NEAREST and TEXPREF_LINEAR aren't supposed to be ORed with TEX_MIPMAP
-#define TEXPREF_LINEAR			0x0002	// force linear
-#define TEXPREF_NEAREST			0x0004	// force nearest
-#define TEXPREF_ALPHA			0x0008	// allow alpha
-#define TEXPREF_PAD			0x0010	// allow padding
-#define TEXPREF_PERSIST			0x0020	// never free
-#define TEXPREF_OVERWRITE		0x0040	// overwrite existing same-name texture
-#define TEXPREF_NOPICMIP		0x0080	// always load full-sized
-#define TEXPREF_FULLBRIGHT		0x0100	// use fullbright mask palette
-#define TEXPREF_NOBRIGHT		0x0200	// use nobright mask palette
-#define TEXPREF_CONCHARS		0x0400	// use conchars palette
-#define TEXPREF_WARPIMAGE		0x0800	// resize this texture when warpimagesize changes
+enum
+{
+	TEXPREF_NONE			= 0x0000,
+	TEXPREF_MIPMAP			= 0x0001, // generate mipmaps
+	// TEXPREF_NEAREST and TEXPREF_LINEAR aren't supposed to be ORed with TEX_MIPMAP
+	TEXPREF_LINEAR			= 0x0002,	// force linear
+	TEXPREF_NEAREST			= 0x0004,	// force nearest
+	TEXPREF_ALPHA			= 0x0008,	// allow alpha
+	TEXPREF_PAD				= 0x0010,	// allow padding
+	TEXPREF_PERSIST			= 0x0020,	// never free
+	TEXPREF_OVERWRITE		= 0x0040,	// overwrite existing same-name texture
+	TEXPREF_NOPICMIP		= 0x0080,	// always load full-sized
+	TEXPREF_FULLBRIGHT		= 0x0100,	// use fullbright mask palette
+	TEXPREF_NOBRIGHT		= 0x0200,	// use nobright mask palette
+	TEXPREF_CONCHARS		= 0x0400,	// use conchars palette
+	TEXPREF_WARPIMAGE		= 0x0800,	// resize this texture when warpimagesize changes
+};
 
-enum srcformat {SRC_INDEXED, SRC_LIGHTMAP, SRC_RGBA, SRC_INDEXED_PALETTE};
+enum srcformat 
+{
+	SRC_INDEXED,
+	SRC_LIGHTMAP,
+	SRC_RGBA,
+	SRC_INDEXED_PALETTE
+};
 
 typedef uintptr_t src_offset_t;
 
-typedef struct gltexture_s {
+struct gltexture_t
+{
 //managed by texture manager
 	GLuint			texnum;
-	struct gltexture_s	*next;
+	gltexture_t		*next;
 	qmodel_t		*owner;
 //managed by image loading
 	char			name[64];
@@ -63,7 +75,7 @@ typedef struct gltexture_s {
 	signed char			pants; //0-13 pants color, or -1 if never colormapped
 //used for rendering
 	int			visframe; //matches r_framecount if texture was bound this frame
-} gltexture_t;
+};
 
 extern gltexture_t *notexture;
 extern gltexture_t *nulltexture;

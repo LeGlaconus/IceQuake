@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_PI_DIV_180	(M_PI / 180.0) //johnfitz
 #define DEG2RAD(a)		((a) * M_PI_DIV_180)
 
-struct mplane_s;
+struct mplane_t;
 
 extern vec3_t vec3_origin;
 
@@ -99,7 +99,7 @@ fixed16_t Invert24To16(fixed16_t val);
 int GreatestCommonDivisor (int i1, int i2);
 
 void AngleVectors (vec3_t angles, vec3_t forward, vec3_t right, vec3_t up);
-int BoxOnPlaneSide (vec3_t emins, vec3_t emaxs, struct mplane_s *plane);
+int BoxOnPlaneSide (vec3_t emins, vec3_t emaxs, mplane_t *plane);
 float	anglemod(float a);
 
 

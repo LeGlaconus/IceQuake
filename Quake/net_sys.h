@@ -83,7 +83,7 @@ typedef int	socklen_t;			/* defining as signed int to match the old api */
 #define	socketerror(x)	strerror((x))
 
 /* Verify that we defined HAVE_SA_LEN correctly: */
-COMPILE_TIME_ASSERT(sockaddr, offsetof(struct sockaddr, sa_family) == SA_FAM_OFFSET);
+COMPILE_TIME_ASSERT(sockaddr, offsetof(sockaddr, sa_family) == SA_FAM_OFFSET);
 
 #endif	/* end of unix stuff */
 
@@ -135,7 +135,7 @@ typedef unsigned int	in_addr_t;	/* u_int32_t */
 #define	hstrerror(x)	strerror((x))
 
 /* Verify that we defined HAVE_SA_LEN correctly: */
-COMPILE_TIME_ASSERT(sockaddr, offsetof(struct sockaddr, sa_family) == SA_FAM_OFFSET);
+COMPILE_TIME_ASSERT(sockaddr, offsetof(sockaddr, sa_family) == SA_FAM_OFFSET);
 
 #endif	/* end of amiga bsdsocket.library stuff */
 
@@ -172,7 +172,7 @@ typedef SOCKET	sys_socket_t;
 #define	socketerror(x)	__WSAE_StrError((x))
 
 /* Verify that we defined HAVE_SA_LEN correctly: */
-COMPILE_TIME_ASSERT(sockaddr, offsetof(struct sockaddr, sa_family) == SA_FAM_OFFSET);
+COMPILE_TIME_ASSERT(sockaddr, offsetof(sockaddr, sa_family) == SA_FAM_OFFSET);
 
 #endif	/* end of windows stuff */
 
@@ -197,4 +197,3 @@ COMPILE_TIME_ASSERT(sockaddr, offsetof(struct sockaddr, sa_family) == SA_FAM_OFF
 
 
 #endif	/* __NET_SYS_H__ */
-

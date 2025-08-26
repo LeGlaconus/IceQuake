@@ -66,14 +66,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MAX_NUM_ARGVS	50
 
-// up / down
-#define	PITCH		0
-
-// left / right
-#define	YAW		1
-
-// fall over
-#define	ROLL		2
+enum
+{
+	PITCH	= 0,	// up / down
+	YAW		,		// left / right
+	ROLL	,		// fall over
+};
 
 
 #define	MAX_QPATH	64		// max length of a quake game pathname
@@ -87,9 +85,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define	DATAGRAM_MTU	1400		// johnfitz -- actual limit for unreliable messages to nonlocal clients
 
-//
+
 // per-level limits
-//
+
 #define	MIN_EDICTS	256		// johnfitz -- lowest allowed value for max_edicts cvar
 #define	MAX_EDICTS	32000		// johnfitz -- highest allowed value for max_edicts cvar
 						// ents past 8192 can't play sounds in the standard protocol
@@ -101,90 +99,102 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define	MAX_STYLESTRING		64
 
-//
+
 // stats are integers communicated to the client by the server
-//
+
 #define	MAX_CL_STATS		32
-#define	STAT_HEALTH		0
-#define	STAT_FRAGS		1
-#define	STAT_WEAPON		2
-#define	STAT_AMMO		3
-#define	STAT_ARMOR		4
-#define	STAT_WEAPONFRAME	5
-#define	STAT_SHELLS		6
-#define	STAT_NAILS		7
-#define	STAT_ROCKETS		8
-#define	STAT_CELLS		9
-#define	STAT_ACTIVEWEAPON	10
-#define	STAT_TOTALSECRETS	11
-#define	STAT_TOTALMONSTERS	12
-#define	STAT_SECRETS		13	// bumped on client side by svc_foundsecret
-#define	STAT_MONSTERS		14	// bumped by svc_killedmonster
+
+enum
+{
+	STAT_HEALTH = 0,
+	STAT_FRAGS,
+	STAT_WEAPON,
+	STAT_AMMO,
+	STAT_ARMOR,
+	STAT_WEAPONFRAME,
+	STAT_SHELLS,
+	STAT_NAILS,
+	STAT_ROCKETS,
+	STAT_CELLS,
+	STAT_ACTIVEWEAPON,
+	STAT_TOTALSECRETS,
+	STAT_TOTALMONSTERS,
+	STAT_SECRETS,		// bumped on client side by svc_foundsecret
+	STAT_MONSTERS,		// bumped by svc_killedmonster
+};
+
 
 // stock defines
-//
-#define	IT_SHOTGUN		1
-#define	IT_SUPER_SHOTGUN	2
-#define	IT_NAILGUN		4
-#define	IT_SUPER_NAILGUN	8
-#define	IT_GRENADE_LAUNCHER	16
-#define	IT_ROCKET_LAUNCHER	32
-#define	IT_LIGHTNING		64
-#define	IT_SUPER_LIGHTNING	128
-#define	IT_SHELLS		256
-#define	IT_NAILS		512
-#define	IT_ROCKETS		1024
-#define	IT_CELLS		2048
-#define	IT_AXE			4096
-#define	IT_ARMOR1		8192
-#define	IT_ARMOR2		16384
-#define	IT_ARMOR3		32768
-#define	IT_SUPERHEALTH		65536
-#define	IT_KEY1			131072
-#define	IT_KEY2			262144
-#define	IT_INVISIBILITY		524288
-#define	IT_INVULNERABILITY	1048576
-#define	IT_SUIT			2097152
-#define	IT_QUAD			4194304
-#define	IT_SIGIL1		(1<<28)
-#define	IT_SIGIL2		(1<<29)
-#define	IT_SIGIL3		(1<<30)
-#define	IT_SIGIL4		(1<<31)
+
+enum
+{
+	IT_SHOTGUN			= 1,
+	IT_SUPER_SHOTGUN	= 2,
+	IT_NAILGUN			= 4,
+	IT_SUPER_NAILGUN	= 8,
+	IT_GRENADE_LAUNCHER	= 16,
+	IT_ROCKET_LAUNCHER	= 32,
+	IT_LIGHTNING		= 64,
+	IT_SUPER_LIGHTNING	= 128,
+	IT_SHELLS			= 256,
+	IT_NAILS			= 512,
+	IT_ROCKETS			= 1024,
+	IT_CELLS			= 2048,
+	IT_AXE				= 4096,
+	IT_ARMOR1			= 8192,
+	IT_ARMOR2			= 16384,
+	IT_ARMOR3			= 32768,
+	IT_SUPERHEALTH		= 65536,
+	IT_KEY1				= 131072,
+	IT_KEY2				= 262144,
+	IT_INVISIBILITY		= 524288,
+	IT_INVULNERABILITY	= 1048576,
+	IT_SUIT				= 2097152,
+	IT_QUAD				= 4194304,
+	IT_SIGIL1			= (1<<28),
+	IT_SIGIL2			= (1<<29),
+	IT_SIGIL3			= (1<<30),
+	IT_SIGIL4			= (1<<31),
+};
 
 //===========================================
 //rogue changed and added defines
 
-#define	RIT_SHELLS		128
-#define	RIT_NAILS		256
-#define	RIT_ROCKETS		512
-#define	RIT_CELLS		1024
-#define	RIT_AXE			2048
-#define	RIT_LAVA_NAILGUN	4096
-#define	RIT_LAVA_SUPER_NAILGUN	8192
-#define	RIT_MULTI_GRENADE	16384
-#define	RIT_MULTI_ROCKET	32768
-#define	RIT_PLASMA_GUN		65536
-#define	RIT_ARMOR1		8388608
-#define	RIT_ARMOR2		16777216
-#define	RIT_ARMOR3		33554432
-#define	RIT_LAVA_NAILS		67108864
-#define	RIT_PLASMA_AMMO		134217728
-#define	RIT_MULTI_ROCKETS	268435456
-#define	RIT_SHIELD		536870912
-#define	RIT_ANTIGRAV		1073741824
-#define	RIT_SUPERHEALTH		2147483648
+enum
+{
+
+	RIT_SHELLS				= 128,
+	RIT_NAILS				= 256,
+	RIT_ROCKETS				= 512,
+	RIT_CELLS				= 1024,
+	RIT_AXE					= 2048,
+	RIT_LAVA_NAILGUN		= 4096,
+	RIT_LAVA_SUPER_NAILGUN	= 8192,
+	RIT_MULTI_GRENADE		= 16384,
+	RIT_MULTI_ROCKET		= 32768,
+	RIT_PLASMA_GUN			= 65536,
+	RIT_ARMOR1				= 8388608,
+	RIT_ARMOR2				= 16777216,
+	RIT_ARMOR3				= 33554432,
+	RIT_LAVA_NAILS			= 67108864,
+	RIT_PLASMA_AMMO			= 134217728,
+	RIT_MULTI_ROCKETS		= 268435456,
+	RIT_SHIELD				= 536870912,
+	RIT_ANTIGRAV			= 1073741824,
+	RIT_SUPERHEALTH			= 2147483648,
+};
 
 //MED 01/04/97 added hipnotic defines
 //===========================================
 //hipnotic added defines
 #define	HIT_PROXIMITY_GUN_BIT	16
-#define	HIT_MJOLNIR_BIT		7
+#define	HIT_MJOLNIR_BIT			7
 #define	HIT_LASER_CANNON_BIT	23
-#define	HIT_PROXIMITY_GUN	(1<<HIT_PROXIMITY_GUN_BIT)
-#define	HIT_MJOLNIR		(1<<HIT_MJOLNIR_BIT)
-#define	HIT_LASER_CANNON	(1<<HIT_LASER_CANNON_BIT)
-#define	HIT_WETSUIT		(1<<(23+2))
-#define	HIT_EMPATHY_SHIELDS	(1<<(23+3))
+#define	HIT_PROXIMITY_GUN		(1<<HIT_PROXIMITY_GUN_BIT)
+#define	HIT_MJOLNIR				(1<<HIT_MJOLNIR_BIT)
+#define	HIT_LASER_CANNON		(1<<HIT_LASER_CANNON_BIT)
+#define	HIT_WETSUIT				(1<<(23+2))
+#define	HIT_EMPATHY_SHIELDS		(1<<(23+3))
 
 //===========================================
 
@@ -193,20 +203,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define	SOUND_CHANNELS		8
 
-typedef struct
-{
-	const char *basedir;
-	const char *userdir;	// user's directory on UNIX platforms.
-				// if user directories are enabled, basedir
-				// and userdir will point to different
-				// memory locations, otherwise to the same.
-	int	argc;
-	char	**argv;
-	void	*membase;
-	int	memsize;
-	int	numcpus;
-	int	errstate;
-} quakeparms_t;
+
+
+#include "HostDefs.hpp"
 
 #include "common.h"
 #include "bspfile.h"
@@ -278,12 +277,11 @@ typedef struct
 // command line parms passed to the program, and the amount of memory
 // available for the program to use
 
-extern qboolean noclip_anglehack;
+extern bool noclip_anglehack;
 
-//
 // host
-//
-extern	quakeparms_t *host_parms;
+
+extern	QuakeHostParams *host_parms;
 
 extern	cvar_t		sys_ticrate;
 extern	cvar_t		sys_throttle;
@@ -298,22 +296,22 @@ extern	int		host_framecount;	// incremented every frame, never reset
 extern	double		realtime;		// not bounded in any way, changed at
 							// start of every frame, never reset
 
-typedef struct filelist_item_s
+struct filelist_item_t
 {
-	char			name[32];
+	char				name[32];
 	unsigned int		path_id;
-	struct filelist_item_s	*next;
-} filelist_item_t;
+	filelist_item_t		*next;
+};
 
 extern filelist_item_t	*modlist;
 extern filelist_item_t	*extralevels;
 extern filelist_item_t	*demolist;
 
-void Host_ClearMemory (void);
-void Host_ServerFrame (void);
-void Host_InitCommands (void);
-void Host_Init (void);
-void Host_Shutdown(void);
+void Host_ClearMemory ();
+void Host_ServerFrame ();
+void Host_InitCommands ();
+void Host_Init ();
+void Host_Shutdown();
 void Host_Callback_Notify (cvar_t *var);	/* callback function for CVAR_NOTIFY */
 FUNC_NORETURN void Host_Error (const char *error, ...) FUNC_PRINTF(1,2);
 FUNC_NORETURN void Host_EndGame (const char *message, ...) FUNC_PRINTF(1,2);
@@ -322,20 +320,20 @@ FUNC_NORETURN void Host_EndGame (const char *message, ...) FUNC_PRINTF(1,2);
 #pragma aux Host_EndGame aborts;
 #endif
 void Host_Frame (float time);
-void Host_Quit_f (void);
+void Host_Quit_f ();
 void Host_ClientCommands (const char *fmt, ...) FUNC_PRINTF(1,2);
 void Host_ShutdownServer (qboolean crash);
-void Host_WriteConfiguration (void);
-void Host_Resetdemos (void);
+void Host_WriteConfiguration ();
+void Host_Resetdemos ();
 
-void ExtraMaps_Init (void);
-void Modlist_Init (void);
-void DemoList_Init (void);
+void ExtraMaps_Init ();
+void Modlist_Init ();
+void DemoList_Init ();
 
-void ExtraMaps_NewGame (void);
-void DemoList_Rebuild (void);
+void ExtraMaps_NewGame ();
+void DemoList_Rebuild ();
 
-void Host_SyncExternalFS (void);
+void Host_SyncExternalFS ();
 
 extern int		current_skill;	// skill level for currently loaded level (in case
 					//  the user changes the cvar while the level is

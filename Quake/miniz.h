@@ -377,13 +377,13 @@ enum
 };
 
 struct tinfl_decompressor_tag;
-typedef struct tinfl_decompressor_tag tinfl_decompressor;
+typedef tinfl_decompressor_tag tinfl_decompressor;
 
 /* Max size of LZ dictionary. */
 #define TINFL_LZ_DICT_SIZE 32768
 
 /* Return status. */
-typedef enum {
+enum tinfl_status{
     /* This flags indicates the inflator needs 1 or more input bytes to make forward progress, but the caller is indicating that no more are available. The compressed data */
     /* is probably corrupted. If you call the inflator again with more bytes it'll try to continue processing the input but this is a BAD sign (either the data is corrupted or you called it incorrectly). */
     /* If you call it again with no input you'll just get TINFL_STATUS_FAILED_CANNOT_MAKE_PROGRESS again. */
@@ -414,7 +414,7 @@ typedef enum {
     /* (either exact or worst case) and will stop calling the inflator and fail after receiving too much. In pure streaming scenarios where you have no idea how many bytes to expect this may not be possible */
     /* so I may need to add some code to address this. */
     TINFL_STATUS_HAS_MORE_OUTPUT = 2
-} tinfl_status;
+};
 
 /* Initializes the decompressor to its initial state. */
 #define tinfl_init(r)     \
@@ -492,7 +492,7 @@ enum
     MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_SIZE = 512
 };
 
-typedef struct
+struct mz_zip_archive_file_stat
 {
     /* Central directory file index. */
     mz_uint32 m_file_index;
@@ -542,23 +542,25 @@ typedef struct
     /* Guaranteed to be zero terminated, may be truncated to fit. */
     char m_comment[MZ_ZIP_MAX_ARCHIVE_FILE_COMMENT_SIZE];
 
-} mz_zip_archive_file_stat;
+};
 
 typedef size_t (*mz_file_read_func)(void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n);
 typedef size_t (*mz_file_write_func)(void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n);
 typedef mz_bool (*mz_file_needs_keepalive)(void *pOpaque);
 
 struct mz_zip_internal_state_tag;
-typedef struct mz_zip_internal_state_tag mz_zip_internal_state;
+typedef mz_zip_internal_state_tag mz_zip_internal_state;
 
-typedef enum {
+enum mz_zip_mode
+{
     MZ_ZIP_MODE_INVALID = 0,
     MZ_ZIP_MODE_READING = 1,
     MZ_ZIP_MODE_WRITING = 2,
     MZ_ZIP_MODE_WRITING_HAS_BEEN_FINALIZED = 3
-} mz_zip_mode;
+};
 
-typedef enum {
+enum mz_zip_flags
+{
     MZ_ZIP_FLAG_CASE_SENSITIVE = 0x0100,
     MZ_ZIP_FLAG_IGNORE_PATH = 0x0200,
     MZ_ZIP_FLAG_COMPRESSED_DATA = 0x0400,
@@ -571,9 +573,10 @@ typedef enum {
     /*After adding a compressed file, seek back
     to local file header and set the correct sizes*/
     MZ_ZIP_FLAG_WRITE_HEADER_SET_SIZE = 0x20000
-} mz_zip_flags;
+};
 
-typedef enum {
+enum mz_zip_type
+{
     MZ_ZIP_TYPE_INVALID = 0,
     MZ_ZIP_TYPE_USER,
     MZ_ZIP_TYPE_MEMORY,
@@ -581,10 +584,11 @@ typedef enum {
     MZ_ZIP_TYPE_FILE,
     MZ_ZIP_TYPE_CFILE,
     MZ_ZIP_TOTAL_TYPES
-} mz_zip_type;
+};
 
 /* miniz error codes. Be sure to update mz_zip_get_error_string() if you add or modify this enum. */
-typedef enum {
+enum mz_zip_error
+{
     MZ_ZIP_NO_ERROR = 0,
     MZ_ZIP_UNDEFINED_ERROR,
     MZ_ZIP_TOO_MANY_FILES,
@@ -618,9 +622,9 @@ typedef enum {
     MZ_ZIP_VALIDATION_FAILED,
     MZ_ZIP_WRITE_CALLBACK_FAILED,
     MZ_ZIP_TOTAL_ERRORS
-} mz_zip_error;
+};
 
-typedef struct
+struct mz_zip_archive
 {
     mz_uint64 m_archive_size;
     mz_uint64 m_central_directory_file_ofs;
@@ -644,8 +648,7 @@ typedef struct
     void *m_pIO_opaque;
 
     mz_zip_internal_state *m_pState;
-
-} mz_zip_archive;
+};
 
 /* -------- ZIP reading */
 

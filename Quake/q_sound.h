@@ -26,20 +26,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __QUAKE_SOUND__
 
 /* !!! if this is changed, it must be changed in asm_i386.h too !!! */
-typedef struct
+struct portable_samplepair_t
 {
 	int left;
 	int right;
-} portable_samplepair_t;
+};
 
-typedef struct sfx_s
+struct sfx_t
 {
-	char	name[MAX_QPATH];
+	char			name[MAX_QPATH];
 	cache_user_t	cache;
-} sfx_t;
+};
 
 /* !!! if this is changed, it must be changed in asm_i386.h too !!! */
-typedef struct
+struct sfxcache_t
 {
 	int	length;
 	int	loopstart;
@@ -47,9 +47,9 @@ typedef struct
 	int	width;
 	int	stereo;
 	byte	data[1];	/* variable sized	*/
-} sfxcache_t;
+};
 
-typedef struct
+struct dma_t
 {
 	int	channels;
 	int	samples;		/* mono samples in buffer			*/
@@ -59,10 +59,10 @@ typedef struct
 	int	signed8;		/* device opened for S8 format? (e.g. Amiga AHI) */
 	int	speed;
 	unsigned char	*buffer;
-} dma_t;
+};
 
 /* !!! if this is changed, it must be changed in asm_i386.h too !!! */
-typedef struct
+struct channel_t
 {
 	sfx_t	*sfx;			/* sfx number					*/
 	int	leftvol;		/* 0-255 volume					*/
@@ -75,11 +75,11 @@ typedef struct
 	vec3_t	origin;			/* origin of sound effect			*/
 	vec_t	dist_mult;		/* distance multiplier (attenuation/clipK)	*/
 	int	master_vol;		/* 0-255 master volume				*/
-} channel_t;
+};
 
 #define WAV_FORMAT_PCM	1
 
-typedef struct
+struct wavinfo_t
 {
 	int	rate;
 	int	width;
@@ -87,29 +87,29 @@ typedef struct
 	int	loopstart;
 	int	samples;
 	int	dataofs;		/* chunk starts this many bytes from file start	*/
-} wavinfo_t;
+};
 
-void S_Init (void);
-void S_Startup (void);
-void S_Shutdown (void);
+void S_Init ();
+void S_Startup ();
+void S_Shutdown ();
 void S_StartSound (int entnum, int entchannel, sfx_t *sfx, vec3_t origin, float fvol, float attenuation);
 void S_StaticSound (sfx_t *sfx, vec3_t origin, float vol, float attenuation);
 void S_StopSound (int entnum, int entchannel);
 void S_StopAllSounds(qboolean clear);
-void S_ClearBuffer (void);
+void S_ClearBuffer ();
 void S_Update (vec3_t origin, vec3_t forward, vec3_t right, vec3_t up);
-void S_ExtraUpdate (void);
+void S_ExtraUpdate ();
 
-void S_BlockSound (void);
-void S_UnblockSound (void);
+void S_BlockSound ();
+void S_UnblockSound ();
 
 sfx_t *S_PrecacheSound (const char *sample);
 void S_TouchSound (const char *sample);
-void S_ClearPrecache (void);
-void S_BeginPrecaching (void);
-void S_EndPrecaching (void);
+void S_ClearPrecache ();
+void S_BeginPrecaching ();
+void S_EndPrecaching ();
 void S_PaintChannels (int endtime);
-void S_InitPaintChannels (void);
+void S_InitPaintChannels ();
 
 /* picks a channel based on priorities, empty slots, number of channels */
 channel_t *SND_PickChannel (int entnum, int entchannel);
@@ -118,29 +118,29 @@ channel_t *SND_PickChannel (int entnum, int entchannel);
 void SND_Spatialize (channel_t *ch);
 
 /* music stream support */
-void S_RawSamples(int samples, int rate, int width, int channels, byte * data, float volume);
+void S_RawSamples(int samples, int rate, int width, int channels, byte* data, float volume);
 				/* Expects data in signed 16 bit, or unsigned 8 bit format. */
 
 /* initializes cycling through a DMA buffer and returns information on it */
 qboolean SNDDMA_Init(dma_t *dma);
 
 /* gets the current DMA position */
-int SNDDMA_GetDMAPos(void);
+int SNDDMA_GetDMAPos();
 
 /* shutdown the DMA xfer. */
-void SNDDMA_Shutdown(void);
+void SNDDMA_Shutdown();
 
 /* validates & locks the dma buffer */
-void SNDDMA_LockBuffer(void);
+void SNDDMA_LockBuffer();
 
 /* unlocks the dma buffer / sends sound to the device */
-void SNDDMA_Submit(void);
+void SNDDMA_Submit();
 
 /* blocks sound output upon window focus loss */
-void SNDDMA_BlockSound(void);
+void SNDDMA_BlockSound();
 
 /* unblocks the output upon window focus gain */
-void SNDDMA_UnblockSound(void);
+void SNDDMA_UnblockSound();
 
 /* ====================================================================
  * User-setable variables
@@ -184,7 +184,7 @@ sfxcache_t *S_LoadSound (sfx_t *s);
 
 wavinfo_t GetWavinfo (const char *name, byte *wav, int wavlength);
 
-void SND_InitScaletable (void);
+void SND_InitScaletable ();
 
 #endif	/* __QUAKE_SOUND__ */
 

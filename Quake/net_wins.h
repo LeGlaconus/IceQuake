@@ -27,19 +27,19 @@ void WINS_Shutdown (void);
 void WINS_Listen (qboolean state);
 sys_socket_t  WINS_OpenSocket (int port);
 int  WINS_CloseSocket (sys_socket_t socketid);
-int  WINS_Connect (sys_socket_t socketid, struct qsockaddr *addr);
+int  WINS_Connect (sys_socket_t socketid, qsockaddr *addr);
 sys_socket_t  WINS_CheckNewConnections (void);
-int  WINS_Read (sys_socket_t socketid, byte *buf, int len, struct qsockaddr *addr);
-int  WINS_Write (sys_socket_t socketid, byte *buf, int len, struct qsockaddr *addr);
+int  WINS_Read (sys_socket_t socketid, byte *buf, int len, qsockaddr *addr);
+int  WINS_Write (sys_socket_t socketid, byte *buf, int len, qsockaddr *addr);
 int  WINS_Broadcast (sys_socket_t socketid, byte *buf, int len);
-const char *WINS_AddrToString (struct qsockaddr *addr);
-int  WINS_StringToAddr (const char *string, struct qsockaddr *addr);
-int  WINS_GetSocketAddr (sys_socket_t socketid, struct qsockaddr *addr);
-int  WINS_GetNameFromAddr (struct qsockaddr *addr, char *name);
-int  WINS_GetAddrFromName (const char *name, struct qsockaddr *addr);
-int  WINS_AddrCompare (struct qsockaddr *addr1, struct qsockaddr *addr2);
-int  WINS_GetSocketPort (struct qsockaddr *addr);
-int  WINS_SetSocketPort (struct qsockaddr *addr, int port);
+const char *WINS_AddrToString (qsockaddr *addr);
+int  WINS_StringToAddr (const char *string, qsockaddr *addr);
+int  WINS_GetSocketAddr (sys_socket_t socketid, qsockaddr *addr);
+int  WINS_GetNameFromAddr (qsockaddr *addr, char *name);
+int  WINS_GetAddrFromName (const char *name, qsockaddr *addr);
+int  WINS_AddrCompare (qsockaddr *addr1, qsockaddr *addr2);
+int  WINS_GetSocketPort (qsockaddr *addr);
+int  WINS_SetSocketPort (qsockaddr *addr, int port);
 
 #endif	/* __NET_WINSOCK_H */
 

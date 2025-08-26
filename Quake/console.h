@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 extern int con_totallines;
 extern int con_backscroll;
-extern	qboolean con_forcedup;	// because no entities to refresh
+extern qboolean con_forcedup;	// because no entities to refresh
 extern qboolean con_initialized;
 extern byte *con_chars;
 
@@ -61,7 +61,7 @@ void Con_LogCenterPrint (const char *str);
 //
 // debuglog
 //
-void LOG_Init (quakeparms_t *parms);
+void LOG_Init (QuakeHostParams *parms);
 void LOG_Close (void);
 void Con_DebugLog (const char *msg);
 
