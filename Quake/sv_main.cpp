@@ -30,7 +30,7 @@ static char	localmodels[MAX_MODELS][8];	// inline model names for precache
 
 int		sv_protocol = PROTOCOL_FITZQUAKE; //johnfitz
 
-extern qboolean	pr_alpha_supported; //johnfitz
+extern bool	pr_alpha_supported; //johnfitz
 extern int pr_effects_mask;
 
 extern cvar_t nomonsters;
@@ -317,7 +317,7 @@ CLIENT SPAWNING
 ==============================================================================
 */
 
-static qboolean SV_IsLocalClient (client_t *client)
+static bool SV_IsLocalClient (client_t *client)
 {
 	return Q_strcmp (NET_QSocketGetAddressString (client->netconnection), "LOCAL") == 0;
 }
@@ -578,7 +578,7 @@ SV_VisibleToClient -- johnfitz
 PVS test encapsulated in a nice function
 =============
 */
-qboolean SV_VisibleToClient (edict_t *client, edict_t *test, qmodel_t *worldmodel)
+bool SV_VisibleToClient (edict_t *client, edict_t *test, qmodel_t *worldmodel)
 {
 	byte	*pvs;
 	vec3_t	org;
@@ -1010,7 +1010,7 @@ void SV_WriteClientdataToMessage (edict_t *ent, sizebuf_t *msg)
 SV_SendClientDatagram
 =======================
 */
-qboolean SV_SendClientDatagram (client_t *client)
+bool SV_SendClientDatagram (client_t *client)
 {
 	byte		buf[MAX_DATAGRAM];
 	sizebuf_t	msg;
@@ -1147,7 +1147,7 @@ void SV_SendClientMessages ()
 			}
 			if (host_client->sendsignon == PRESPAWN_SIGNONBUFS)
 			{
-				qboolean local = SV_IsLocalClient (host_client);
+				bool local = SV_IsLocalClient (host_client);
 				while (host_client->signonidx < sv.num_signon_buffers)
 				{
 					sizebuf_t *signon = sv.signon_buffers[host_client->signonidx];

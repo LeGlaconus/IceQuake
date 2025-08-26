@@ -144,7 +144,7 @@ returns true if successful
 TODO: support BGRA and BGR formats (since opengl can return them, and we don't have to swap)
 ============
 */
-qboolean Image_WriteTGA (const char *name, byte *data, int width, int height, int bpp, qboolean upsidedown)
+bool Image_WriteTGA (const char *name, byte *data, int width, int height, int bpp, bool upsidedown)
 {
 	int		handle, i, size, temp, bytes;
 	char	pathname[MAX_OSPATH];
@@ -195,7 +195,7 @@ byte *Image_LoadTGA (FILE *fin, int *width, int *height)
 	int				row, column;
 	byte			*targa_rgba;
 	int				realrow; //johnfitz -- fix for upside-down targas
-	qboolean		upside_down; //johnfitz -- fix for upside-down targas
+	bool		upside_down; //johnfitz -- fix for upside-down targas
 	stdio_buffer_t	*buf;
 	targaheader_t	targa_header;
 
@@ -549,7 +549,7 @@ Image_WriteJPG -- writes using stb_image_write
 returns true if successful
 ============
 */
-qboolean Image_WriteJPG (const char *name, byte *data, int width, int height, int bpp, int quality, qboolean upsidedown)
+bool Image_WriteJPG (const char *name, byte *data, int width, int height, int bpp, int quality, bool upsidedown)
 {
 	unsigned error;
 	char	pathname[MAX_OSPATH];
@@ -580,7 +580,7 @@ qboolean Image_WriteJPG (const char *name, byte *data, int width, int height, in
 	return (error != 0);
 }
 
-qboolean Image_WritePNG (const char *name, byte *data, int width, int height, int bpp, qboolean upsidedown)
+bool Image_WritePNG (const char *name, byte *data, int width, int height, int bpp, bool upsidedown)
 {
 	unsigned error;
 	char	pathname[MAX_OSPATH];

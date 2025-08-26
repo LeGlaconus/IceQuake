@@ -40,9 +40,9 @@ int		history_line = 0;
 keydest_t	key_dest;
 
 char		*keybindings[MAX_KEYS];
-qboolean	consolekeys[MAX_KEYS];	// if true, can't be rebound while in console
-qboolean	menubound[MAX_KEYS];	// if true, can't be rebound while in menu
-qboolean	keydown[MAX_KEYS];
+bool	consolekeys[MAX_KEYS];	// if true, can't be rebound while in console
+bool	menubound[MAX_KEYS];	// if true, can't be rebound while in menu
+bool	keydown[MAX_KEYS];
 
 struct keyname_t
 {
@@ -457,7 +457,7 @@ void Char_Console (int key)
 
 	if (key_linepos < MAXCMDLINE-1)
 	{
-		qboolean endpos = !workline[key_linepos];
+		bool endpos = !workline[key_linepos];
 
 		key_tabpartial[0] = 0; //johnfitz
 		// if inserting, move the text to the right
@@ -489,7 +489,7 @@ void Char_Console (int key)
 
 //============================================================================
 
-qboolean	chat_team = false;
+bool	chat_team = false;
 static char	chat_buffer[MAXCMDLINE];
 static int	chat_bufferlen = 0;
 
@@ -897,7 +897,7 @@ void Key_Init ()
 }
 
 static struct {
-	qboolean active;
+	bool active;
 	int lastkey;
 	int lastchar;
 } key_inputgrab = { false, -1, -1 };
@@ -953,7 +953,7 @@ Called by the system between frames for both key up and key down events
 Should NOT be called during an interrupt!
 ===================
 */
-void Key_Event (int key, qboolean down)
+void Key_Event (int key, bool down)
 {
 	Key_EventWithKeycode (key, down, 0);
 }
@@ -968,7 +968,7 @@ keycode parameter should have the key's actual keycode using the current keyboar
 not necessarily the US-keyboard-based scancode. Pass 0 if not applicable.
 ===================
 */
-void Key_EventWithKeycode (int key, qboolean down, int keycode)
+void Key_EventWithKeycode (int key, bool down, int keycode)
 {
 	char	*kb;
 	char	cmd[1024];
@@ -1157,7 +1157,7 @@ void Char_Event (int key)
 Key_TextEntry
 ===================
 */
-qboolean Key_TextEntry ()
+bool Key_TextEntry ()
 {
 	if (key_inputgrab.active)
 	{
@@ -1207,7 +1207,7 @@ Key_UpdateForDest
 */
 void Key_UpdateForDest ()
 {
-	static qboolean forced = false;
+	static bool forced = false;
 
 	if (cls.state == ca_dedicated)
 		return;

@@ -39,7 +39,7 @@ struct cmdalias_t
 
 cmdalias_t	*cmd_alias;
 
-qboolean	cmd_wait;
+bool	cmd_wait;
 
 //=============================================================================
 
@@ -729,7 +729,7 @@ void	Cmd_AddCommand (const char *cmd_name, xcommand_t function)
 Cmd_Exists
 ============
 */
-qboolean	Cmd_Exists (const char *cmd_name)
+bool	Cmd_Exists (const char *cmd_name)
 {
 	cmd_function_t	*cmd;
 

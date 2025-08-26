@@ -49,9 +49,9 @@ static vec3_t	shadevector;
 
 static float	entalpha; //johnfitz
 
-static qboolean overbright; //johnfitz
+static bool overbright; //johnfitz
 
-static qboolean shading = true; //johnfitz -- if false, disable vertex shading for various reasons (fullbright, r_lightmap, showtris, etc)
+static bool shading = true; //johnfitz -- if false, disable vertex shading for various reasons (fullbright, r_lightmap, showtris, etc)
 
 //johnfitz -- struct for passing lerp information to drawing functions
 struct lerpdata_t
@@ -303,7 +303,7 @@ void GL_DrawAliasFrame (aliashdr_t *paliashdr, lerpdata_t lerpdata)
 	int		count;
 	float	u,v;
 	float	blend, iblend;
-	qboolean lerping;
+	bool lerping;
 
 	if (lerpdata.pose1 != lerpdata.pose2)
 	{
@@ -637,7 +637,7 @@ void R_DrawAliasModel (entity_t *e)
 	int		anim, skinnum;
 	gltexture_t	*tx, *fb;
 	lerpdata_t	lerpdata;
-	qboolean	alphatest = !!(e->model->flags & MF_HOLEY);
+	bool	alphatest = !!(e->model->flags & MF_HOLEY);
 	float		fovscale = 1.0f;
 
 	//

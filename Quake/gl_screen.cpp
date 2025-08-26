@@ -103,7 +103,7 @@ cvar_t		cl_gun_fovscale = {"cl_gun_fovscale","1",CVAR_ARCHIVE}; // Qrack
 
 extern	cvar_t	crosshair;
 
-qboolean	scr_initialized;		// ready to draw
+bool	scr_initialized;		// ready to draw
 
 qpic_t		*scr_net;
 qpic_t		*scr_turtle;
@@ -113,8 +113,8 @@ int			clearnotify;
 
 vrect_t		scr_vrect;
 
-qboolean	scr_disabled_for_loading;
-qboolean	scr_drawloading;
+bool	scr_disabled_for_loading;
+bool	scr_drawloading;
 float		scr_disabled_time;
 
 int	scr_tileclear_updates = 0; //johnfitz
@@ -761,7 +761,7 @@ void SCR_ScreenShot_f ()
 	char	imagename[16];  //johnfitz -- was [80]
 	char	checkname[MAX_OSPATH];
 	int	i, quality;
-	qboolean	ok;
+	bool	ok;
 
 	Q_strncpy (ext, "png", sizeof(ext));
 
@@ -880,7 +880,7 @@ void SCR_EndLoadingPlaque ()
 //=============================================================================
 
 const char	*scr_notifystring;
-qboolean	scr_drawdialog;
+bool	scr_drawdialog;
 
 void SCR_DrawNotifyString ()
 {

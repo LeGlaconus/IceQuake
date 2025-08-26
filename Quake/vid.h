@@ -90,8 +90,8 @@ void VID_SyncCvars ();
 void VID_Toggle (void);
 
 void *VID_GetWindow ();
-qboolean VID_HasMouseOrInputFocus ();
-qboolean VID_IsMinimized ();
+bool VID_HasMouseOrInputFocus ();
+bool VID_IsMinimized ();
 void	VID_Lock ();
 
 #endif	/* __VID_DEFS_H */

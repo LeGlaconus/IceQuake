@@ -131,25 +131,19 @@ COMPILE_TIME_ASSERT(enum, sizeof(THE_DUMMY_ENUM) == sizeof(int));
 /*==========================================================================*/
 
 typedef unsigned char		byte;
+typedef unsigned int		uint;
 
-/* some structures have qboolean members and the x86 asm code expect
- * those members to be 4 bytes long.  i.e.: qboolean must be 32 bits.  */
-typedef int	qboolean;
-#undef true
-#undef false
-#if !defined(__cplusplus)
-#if defined __STDC_VERSION__ && (__STDC_VERSION__ >= 199901L)
-#include <stdbool.h>
-#else
-enum {
-	false = 0,
-	true  = 1
-};
-#endif
-#endif /* */
+/* some structures have bool members and the x86 asm code expect
+ * those members to be 4 bytes long.  i.e.: bool must be 32 bits.  */
+
+//qboolean is deprecated from now on 
+//typedef int	qboolean;
 COMPILE_TIME_ASSERT(falsehood, ((1 != 1) == false));
 COMPILE_TIME_ASSERT(truth, ((1 == 1) == true));
-COMPILE_TIME_ASSERT(qboolean, sizeof(qboolean) == 4);
+
+
+//COMPILE_TIME_ASSERT(bool, sizeof(bool) == 4);
+COMPILE_TIME_ASSERT(bool, sizeof(bool) == 1);
 
 /*==========================================================================*/
 

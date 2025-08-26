@@ -532,7 +532,7 @@ Adds a freestanding variable to the variable list.
 void Cvar_RegisterVariable (cvar_t *variable)
 {
 	char	value[512];
-	qboolean	set_rom;
+	bool	set_rom;
 	cvar_t	*cursor,*prev; //johnfitz -- sorted list insert
 
 // first check to see if it has already been defined
@@ -610,7 +610,7 @@ Cvar_Command
 Handles variable inspection and changing from the console
 ============
 */
-qboolean	Cvar_Command ()
+bool	Cvar_Command ()
 {
 	cvar_t			*v;
 

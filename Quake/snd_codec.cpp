@@ -121,7 +121,7 @@ void S_CodecShutdown ()
 S_CodecOpenStream
 =================
 */
-snd_stream_t *S_CodecOpenStreamType (const char *filename, unsigned int type, qboolean loop)
+snd_stream_t *S_CodecOpenStreamType (const char *filename, unsigned int type, bool loop)
 {
 	snd_codec_t *codec;
 	snd_stream_t *stream;
@@ -153,7 +153,7 @@ snd_stream_t *S_CodecOpenStreamType (const char *filename, unsigned int type, qb
 	return stream;
 }
 
-snd_stream_t *S_CodecOpenStreamExt (const char *filename, qboolean loop)
+snd_stream_t *S_CodecOpenStreamExt (const char *filename, bool loop)
 {
 	snd_codec_t *codec;
 	snd_stream_t *stream;
@@ -187,7 +187,7 @@ snd_stream_t *S_CodecOpenStreamExt (const char *filename, qboolean loop)
 	return stream;
 }
 
-snd_stream_t *S_CodecOpenStreamAny (const char *filename, qboolean loop)
+snd_stream_t *S_CodecOpenStreamAny (const char *filename, bool loop)
 {
 	snd_codec_t *codec;
 	snd_stream_t *stream;
@@ -239,7 +239,7 @@ snd_stream_t *S_CodecOpenStreamAny (const char *filename, qboolean loop)
 	}
 }
 
-qboolean S_CodecForwardStream (snd_stream_t *stream, unsigned int type)
+bool S_CodecForwardStream (snd_stream_t *stream, unsigned int type)
 {
 	snd_codec_t *codec = codecs;
 
@@ -280,11 +280,11 @@ int S_CodecReadStream (snd_stream_t *stream, int bytes, void *buffer)
 
 /* Util functions (used by codecs) */
 
-snd_stream_t *S_CodecUtilOpen(const char *filename, snd_codec_t *codec, qboolean loop)
+snd_stream_t *S_CodecUtilOpen(const char *filename, snd_codec_t *codec, bool loop)
 {
 	snd_stream_t *stream;
 	FILE *handle;
-	qboolean pak;
+	bool pak;
 	long length;
 
 	/* Try to open the file */

@@ -32,7 +32,7 @@ static char	loadname[32];	// for hunk tags
 static void Mod_LoadSpriteModel (qmodel_t *mod, void *buffer);
 static void Mod_LoadBrushModel (qmodel_t *mod, void *buffer);
 static void Mod_LoadAliasModel (qmodel_t *mod, void *buffer);
-static qmodel_t *Mod_LoadModel (qmodel_t *mod, qboolean crash);
+static qmodel_t *Mod_LoadModel (qmodel_t *mod, bool crash);
 
 static void Mod_Print (void);
 
@@ -314,7 +314,7 @@ Mod_LoadModel
 Loads a model into the cache
 ==================
 */
-static qmodel_t *Mod_LoadModel (qmodel_t *mod, qboolean crash)
+static qmodel_t *Mod_LoadModel (qmodel_t *mod, bool crash)
 {
 	byte	*buf;
 	byte	stackbuf[1024];		// avoid dirtying the cache heap
@@ -390,7 +390,7 @@ Mod_ForName
 Loads in a model for the given name
 ==================
 */
-qmodel_t *Mod_ForName (const char *name, qboolean crash)
+qmodel_t *Mod_ForName (const char *name, bool crash)
 {
 	qmodel_t	*mod;
 
@@ -467,14 +467,14 @@ Mod_LoadWadTexture
 look for an external texture in any of the loaded map wads
 =================
 */
-static texture_t *Mod_LoadWadTexture (qmodel_t *mod, wad_t *wads, const char *name, qboolean *out_pal, int *out_pixels)
+static texture_t *Mod_LoadWadTexture (qmodel_t *mod, wad_t *wads, const char *name, bool *out_pal, int *out_pixels)
 {
 	int			   i, pixels, palette, tex_bytes, lump_bytes, pixels_pos, palette_pos;
 	lumpinfo_t	  *info;
 	wad_t		  *wad;
 	miptex_t	   mt;
 	texture_t	  *tx;
-	qboolean	   pal;
+	bool	   pal;
 	unsigned short colors;
 
 	// look for the lump in any of the loaded wads
@@ -582,7 +582,7 @@ static texture_t *Mod_LoadWadTexture (qmodel_t *mod, wad_t *wads, const char *na
 Mod_CheckFullbrights -- johnfitz
 =================
 */
-static qboolean Mod_CheckFullbrights (byte *pixels, int count)
+static bool Mod_CheckFullbrights (byte *pixels, int count)
 {
 	int i;
 	for (i = 0; i < count; i++)
@@ -598,7 +598,7 @@ static qboolean Mod_CheckFullbrights (byte *pixels, int count)
 Mod_CheckFullbrightsValve
 =================
 */
-static qboolean Mod_CheckFullbrightsValve (char *name, byte *pixels, int count)
+static bool Mod_CheckFullbrightsValve (char *name, byte *pixels, int count)
 {
 	if (name[0] == '~' || (name[2] == '~' && name[0] == '+'))
 		return Mod_CheckFullbrights (pixels, count);
@@ -613,7 +613,7 @@ Quake64 bsp
 Check if we have any missing textures in the array
 =================
 */
-static qboolean Mod_CheckAnimTextureArrayQ64(texture_t *anims[], int numTex)
+static bool Mod_CheckAnimTextureArrayQ64(texture_t *anims[], int numTex)
 {
 	int i;
 
@@ -649,16 +649,16 @@ static void Mod_LoadTextures (lump_t *l)
 //johnfitz
 	unsigned int	flags;
 	wad_t		*wads;
-	qboolean from_wad;
+	bool from_wad;
 	enum srcformat fmt;
-	qboolean fbright;
+	bool fbright;
 	const char *source_file;
 #ifdef BSP29_VALVE
 	int palette;
 	byte *palette_p;
 	unsigned short colors;
 #endif
-	qboolean pal;
+	bool pal;
 
 	//johnfitz -- don't return early if no textures; still need to create dummy texture
 	if (!l->filelen)
@@ -1527,7 +1527,7 @@ static void Mod_CalcSurfaceBounds (msurface_t *s)
 Mod_LoadFaces
 =================
 */
-static void Mod_LoadFaces (lump_t *l, qboolean bsp2)
+static void Mod_LoadFaces (lump_t *l, bool bsp2)
 {
 	dsface_t	*ins;
 	dlface_t	*inl;
@@ -2016,7 +2016,7 @@ static void Mod_LoadLeafs (lump_t *l, int bsp2)
 Mod_LoadClipnodes
 =================
 */
-static void Mod_LoadClipnodes (lump_t *l, qboolean bsp2)
+static void Mod_LoadClipnodes (lump_t *l, bool bsp2)
 {
 	dsclipnode_t *ins;
 	dlclipnode_t *inl;
@@ -2988,7 +2988,7 @@ static void Mod_CalcAliasBounds (aliashdr_t *a)
 	loadmodel->ymaxs[2] = loadmodel->maxs[2];
 }
 
-static qboolean
+static bool
 nameInList(const char *list, const char *name)
 {
 	const char *s;

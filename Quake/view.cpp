@@ -487,7 +487,7 @@ V_UpdateBlend -- johnfitz -- V_UpdatePalette cleaned up and renamed
 void V_UpdateBlend ()
 {
 	int		i, j;
-	qboolean	blend_changed;
+	bool	blend_changed;
 
 	V_CalcPowerupCshift ();
 

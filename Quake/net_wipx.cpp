@@ -120,7 +120,7 @@ void WIPX_Shutdown ()
 
 //=============================================================================
 
-void WIPX_Listen (qboolean state)
+void WIPX_Listen (bool state)
 {
 	// enable listening
 	if (state)

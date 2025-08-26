@@ -34,7 +34,7 @@
 #error libxmp version 4.2 or newer is required
 #endif
 
-static qboolean S_XMP_CodecInitialize ()
+static bool S_XMP_CodecInitialize ()
 {
 	return true;
 }
@@ -58,7 +58,7 @@ static long xmp_ftell(void *f)
 }
 #endif
 
-static qboolean S_XMP_CodecOpenStream (snd_stream_t *stream)
+static bool S_XMP_CodecOpenStream (snd_stream_t *stream)
 {
 /* need to load the whole file into memory and pass it to libxmp
  * using xmp_load_module_from_memory() which requires libxmp >= 4.2.

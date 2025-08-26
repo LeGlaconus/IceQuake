@@ -83,7 +83,7 @@ static void mp3_close (void *f)
 	/* we close elsewhere. */
 }
 
-static qboolean S_MP3_CodecInitialize ()
+static bool S_MP3_CodecInitialize ()
 {
 	if (!mp3_codec.initialized)
 	{
@@ -106,7 +106,7 @@ static void S_MP3_CodecShutdown ()
 	}
 }
 
-static qboolean S_MP3_CodecOpenStream (snd_stream_t *stream)
+static bool S_MP3_CodecOpenStream (snd_stream_t *stream)
 {
 	long rate = 0;
 	int encoding = 0, channels = 0;

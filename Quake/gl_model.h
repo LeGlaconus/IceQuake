@@ -104,7 +104,7 @@ struct texture_t
 	gltexture_t			*gltexture; //johnfitz -- pointer to gltexture
 	gltexture_t			*fullbright; //johnfitz -- fullbright mask texture
 	gltexture_t			*warpimage; //johnfitz -- for water animation
-	qboolean			update_warp; //johnfitz -- update warp this frame
+	bool			update_warp; //johnfitz -- update warp this frame
 	msurface_t			*texturechains[2];	// for texture chains
 	int					anim_total;				// total tenths in sequence ( 0 = no)
 	int					anim_min, anim_max;		// time for this frame min <=time< max
@@ -185,7 +185,7 @@ struct msurface_t
 	int			lightmaptexturenum;
 	byte		styles[MAXLIGHTMAPS];
 	int			cached_light[MAXLIGHTMAPS];	// values currently used in lightmap
-	qboolean	cached_dlight;				// true if dynamic light in cache
+	bool	cached_dlight;				// true if dynamic light in cache
 	byte		*samples;		// [numstyles*surfsize]
 };
 
@@ -439,7 +439,7 @@ struct qmodel_t
 	char		name[MAX_QPATH];
 	unsigned int	path_id;		// path id of the game directory
 							// that this model came from
-	qboolean	needload;		// bmodels and sprites don't cache normally
+	bool	needload;		// bmodels and sprites don't cache normally
 
 	modtype_t	type;
 	int			numframes;
@@ -458,7 +458,7 @@ struct qmodel_t
 //
 // solid volume for clipping
 //
-	qboolean	clipbox;
+	bool	clipbox;
 	vec3_t		clipmins, clipmaxs;
 
 //
@@ -508,10 +508,10 @@ struct qmodel_t
 	byte		*lightdata;
 	char		*entities;
 
-	qboolean	viswarn; // for Mod_DecompressVis()
+	bool	viswarn; // for Mod_DecompressVis()
 
 	int			bspversion;
-	qboolean	haslitwater;
+	bool	haslitwater;
 
 // alias model
 
@@ -534,7 +534,7 @@ struct qmodel_t
 void	Mod_Init (void);
 void	Mod_ClearAll (void);
 void	Mod_ResetAll (void); // for gamedir changes (Host_Game_f)
-qmodel_t *Mod_ForName (const char *name, qboolean crash);
+qmodel_t *Mod_ForName (const char *name, bool crash);
 void	*Mod_Extradata (qmodel_t *mod);	// handles caching
 void	Mod_TouchModel (const char *name);
 

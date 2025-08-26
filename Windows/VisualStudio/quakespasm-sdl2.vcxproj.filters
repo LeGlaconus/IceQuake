@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{d0ea4716-ba6c-4e32-b949-8139eddb0a91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Console">
+      <UniqueIdentifier>{f64e5656-e7ce-4c5b-b022-de67bf5b974f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Quake\bgmusic.cpp">
@@ -484,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Quake\HostDefs.hpp">
       <Filter>Source Files\Host</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Quake\ConVar.hpp">
+      <Filter>Source Files\Console</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

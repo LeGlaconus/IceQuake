@@ -32,8 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "SDL.h"
 #endif
 
-static qboolean windowhasfocus = true;	//just in case sdl fails to tell us...
-static qboolean	textmode;
+static bool windowhasfocus = true;	//just in case sdl fails to tell us...
+static bool	textmode;
 
 static cvar_t in_debugkeys = {"in_debugkeys", "0", CVAR_NONE};
 
@@ -68,7 +68,7 @@ static SDL_JoystickID joy_active_instaceid = -1;
 static SDL_GameController *joy_active_controller = NULL;
 #endif
 
-static qboolean	no_mouse = false;
+static bool	no_mouse = false;
 
 static int buttonremap[] =
 {
@@ -251,7 +251,7 @@ void IN_Activate ()
 	total_dy = 0;
 }
 
-void IN_Deactivate (qboolean free_cursor)
+void IN_Deactivate (bool free_cursor)
 {
 	if (no_mouse)
 		return;
@@ -422,7 +422,7 @@ struct joyaxis_t
 
 struct joybuttonstate_t
 {
-	qboolean buttondown[SDL_CONTROLLER_BUTTON_MAX];
+	bool buttondown[SDL_CONTROLLER_BUTTON_MAX];
 };
 
 struct joyaxisstate_t
@@ -546,7 +546,7 @@ and generates key repeats if the button is held down.
 Adapted from DarkPlaces by lordhavoc
 ================
 */
-static void IN_JoyKeyEvent(qboolean wasdown, qboolean isdown, int key, double *timer)
+static void IN_JoyKeyEvent(bool wasdown, bool isdown, int key, double *timer)
 {
 	// we can't use `realtime` for key repeats because it is not monotomic
 	const double currenttime = Sys_DoubleTime();
@@ -602,8 +602,8 @@ void IN_Commands ()
 	// emit key events for controller buttons
 	for (i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
 	{
-		qboolean newstate = SDL_GameControllerGetButton(joy_active_controller, (SDL_GameControllerButton)i);
-		qboolean oldstate = joy_buttonstate.buttondown[i];
+		bool newstate = SDL_GameControllerGetButton(joy_active_controller, (SDL_GameControllerButton)i);
+		bool oldstate = joy_buttonstate.buttondown[i];
 		
 		joy_buttonstate.buttondown[i] = newstate;
 		
@@ -755,7 +755,7 @@ void IN_ClearStates ()
 
 void IN_UpdateInputMode ()
 {
-	qboolean want_textmode = Key_TextEntry();
+	bool want_textmode = Key_TextEntry();
 	if (textmode != want_textmode)
 	{
 		textmode = want_textmode;
@@ -1008,7 +1008,7 @@ void IN_SendKeyEvents ()
 {
 	SDL_Event event;
 	int key;
-	qboolean down;
+	bool down;
 
 	while (SDL_PollEvent(&event))
 	{

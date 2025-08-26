@@ -108,7 +108,7 @@ cvar_t	r_slimealpha = {"r_slimealpha","0",CVAR_NONE};
 
 float	map_wateralpha, map_lavaalpha, map_telealpha, map_slimealpha;
 
-qboolean r_drawflat_cheatsafe, r_fullbright_cheatsafe, r_lightmap_cheatsafe, r_drawworld_cheatsafe; //johnfitz
+bool r_drawflat_cheatsafe, r_fullbright_cheatsafe, r_lightmap_cheatsafe, r_drawworld_cheatsafe; //johnfitz
 
 cvar_t	r_scale = {"r_scale", "1", CVAR_ARCHIVE};
 
@@ -293,7 +293,7 @@ R_CullBox -- johnfitz -- replaced with new function from lordhavoc
 Returns true if the box is completely outside the frustum
 =================
 */
-qboolean R_CullBox (vec3_t emins, vec3_t emaxs)
+bool R_CullBox (vec3_t emins, vec3_t emaxs)
 {
 	int i;
 	mplane_t *p;
@@ -318,7 +318,7 @@ qboolean R_CullBox (vec3_t emins, vec3_t emaxs)
 R_CullModelForEntity -- johnfitz -- uses correct bounds based on rotation
 ===============
 */
-qboolean R_CullModelForEntity (entity_t *e)
+bool R_CullModelForEntity (entity_t *e)
 {
 	vec3_t mins, maxs;
 	vec_t scalefactor, *minbounds, *maxbounds;
@@ -628,7 +628,7 @@ void R_SetupView ()
 R_DrawEntitiesOnList
 =============
 */
-void R_DrawEntitiesOnList (qboolean alphapass) //johnfitz -- added parameter
+void R_DrawEntitiesOnList (bool alphapass) //johnfitz -- added parameter
 {
 	int		i;
 

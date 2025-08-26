@@ -39,7 +39,7 @@ union eval_t
 #define	MAX_ENT_LEAFS	32
 struct edict_t
 {
-	qboolean		free;
+	bool		free;
 	link_t			area;			/* linked to a division node or leaf */
 
 	int				num_leafs;
@@ -48,7 +48,7 @@ struct edict_t
 	entity_state_t	baseline;
 	unsigned char	alpha;			/* johnfitz -- hack to support alpha since it's not part of entvars_t */
 	unsigned char	scale;			/* Quakespasm: added for model scale support. */
-	qboolean		sendinterval;	/* johnfitz -- send time until nextthink to client for better lerp timing */
+	bool		sendinterval;	/* johnfitz -- send time until nextthink to client for better lerp timing */
 	float			oldframe;
 	float			oldthinktime;
 
@@ -136,7 +136,7 @@ struct exbuiltin_t
 
 extern	int		pr_argc;
 
-extern	qboolean	pr_trace;
+extern	bool	pr_trace;
 extern	dfunction_t	*pr_xfunction;
 extern	int		pr_xstatement;
 

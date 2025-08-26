@@ -35,7 +35,7 @@ struct server_static_t
 	int			maxclientslimit;
 	client_t*	clients;			// [maxclients]
 	int			serverflags;		// episode completion information
-	qboolean	changelevel_issued;	// cleared when at SV_SpawnServer
+	bool	changelevel_issued;	// cleared when at SV_SpawnServer
 };
 
 //=============================================================================
@@ -50,11 +50,11 @@ enum server_state_t
 
 struct server_t
 {
-	qboolean	active;				// false if only a net client
+	bool	active;				// false if only a net client
 
-	qboolean	paused;
-	qboolean	loadgame;			// handle connections specially
-	qboolean	nomonsters;			// server started with 'nomonsters' cvar active
+	bool	paused;
+	bool	loadgame;			// handle connections specially
+	bool	nomonsters;			// server started with 'nomonsters' cvar active
 
 	double		time;
 
@@ -103,9 +103,9 @@ enum sendsignon_e
 
 struct client_t
 {
-	qboolean		active;				// false = client is free
-	qboolean		spawned;			// false = don't send datagrams
-	qboolean		dropasap;			// has been told to go to another level
+	bool		active;				// false = client is free
+	bool		spawned;			// false = don't send datagrams
+	bool		dropasap;			// has been told to go to another level
 	sendsignon_e	sendsignon;			// only valid before spawned
 	int				signonidx;
 
@@ -245,7 +245,7 @@ void SV_StartSound (edict_t *entity, int channel, const char *sample, int volume
     float attenuation);
 void SV_LocalSound (client_t *client, const char *sample); // for 2021 rerelease
 
-void SV_DropClient (qboolean crash);
+void SV_DropClient (bool crash);
 
 void SV_SendClientMessages ();
 void SV_ClearDatagram ();
@@ -265,8 +265,8 @@ void SV_BroadcastPrintf (const char *fmt, ...) FUNC_PRINTF(1,2);
 
 void SV_Physics ();
 
-qboolean SV_CheckBottom (edict_t *ent);
-qboolean SV_movestep (edict_t *ent, vec3_t move, qboolean relink);
+bool SV_CheckBottom (edict_t *ent);
+bool SV_movestep (edict_t *ent, vec3_t move, bool relink);
 
 void SV_WriteClientdataToMessage (edict_t *ent, sizebuf_t *msg);
 

@@ -275,7 +275,7 @@ static int mp3_madseek(snd_stream_t *stream, unsigned long offset)
 	size_t   initial_bitrate = p->Frame.header.bitrate;
 	size_t   consumed = 0;
 	int vbr = 0;		/* Variable Bit Rate, bool */
-	qboolean depadded = false;
+	bool depadded = false;
 	unsigned long to_skip_samples = 0;
 
 	/* Reset all */
@@ -376,7 +376,7 @@ static int mp3_madseek(snd_stream_t *stream, unsigned long offset)
 	return -1;
 }
 
-static qboolean S_MP3_CodecInitialize ()
+static bool S_MP3_CodecInitialize ()
 {
 	return true;
 }
@@ -385,7 +385,7 @@ static void S_MP3_CodecShutdown ()
 {
 }
 
-static qboolean S_MP3_CodecOpenStream (snd_stream_t *stream)
+static bool S_MP3_CodecOpenStream (snd_stream_t *stream)
 {
 	int err;
 

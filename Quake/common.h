@@ -117,8 +117,8 @@ GENERIC_TYPES (IMPL_GENERIC_FUNCS, NO_COMMA)
 
 struct sizebuf_t
 {
-	qboolean	allowoverflow;	// if false, do a Sys_Error
-	qboolean	overflowed;	// set to true if the buffer size failed
+	bool	allowoverflow;	// if false, do a Sys_Error
+	bool	overflowed;	// set to true if the buffer size failed
 	byte		*data;
 	int			maxsize;
 	int			cursize;
@@ -171,7 +171,7 @@ void Vec_Free (void **pvec);
 
 //============================================================================
 
-extern	qboolean		host_bigendian;
+extern	bool		host_bigendian;
 
 extern	short	(*BigShort) (short l);
 extern	short	(*LittleShort) (short l);
@@ -193,7 +193,7 @@ void MSG_WriteAngle (sizebuf_t *sb, float f, unsigned int flags);
 void MSG_WriteAngle16 (sizebuf_t *sb, float f, unsigned int flags); //johnfitz
 
 extern	int			msg_readcount;
-extern	qboolean	msg_badread;		// set if a read goes beyond end of message
+extern	bool	msg_badread;		// set if a read goes beyond end of message
 
 void MSG_BeginReading ();
 int MSG_ReadChar ();
@@ -246,7 +246,7 @@ extern int q_vsnprintf(char *str, size_t size, const char *format, va_list args)
 //============================================================================
 
 extern	char		com_token[1024];
-extern	qboolean	com_eof;
+extern	bool	com_eof;
 
 enum cpe_mode
 {
@@ -295,7 +295,7 @@ void LOC_Init ();
 void LOC_Shutdown ();
 const char* LOC_GetRawString (const char *key);
 const char* LOC_GetString (const char *key);
-qboolean LOC_HasPlaceholders (const char *str);
+bool LOC_HasPlaceholders (const char *str);
 size_t LOC_Format (const char *format, const char* (*getarg_fn)(int idx, void* userdata), void* userdata, char* out, size_t len);
 
 //============================================================================
@@ -338,7 +338,7 @@ extern	int	file_from_pak;	// global indicating that file came from a pak
 void COM_WriteFile (const char *filename, const void *data, int len);
 int COM_OpenFile (const char *filename, int *handle, unsigned int *path_id);
 int COM_FOpenFile (const char *filename, FILE **file, unsigned int *path_id);
-qboolean COM_FileExists (const char *filename, unsigned int *path_id);
+bool COM_FileExists (const char *filename, unsigned int *path_id);
 void COM_CloseFile (int h);
 
 // these procedures open a file using COM_FindFile and loads it into a proper
@@ -395,7 +395,7 @@ enum
 struct fshandle_t
 {
 	FILE *file;
-	qboolean pak;	/* is the file read from a pak */
+	bool pak;	/* is the file read from a pak */
 	long start;	/* file or data start position */
 	long length;	/* file or data size */
 	long pos;	/* current position relative to start */
@@ -415,8 +415,8 @@ long FS_filelength (fshandle_t *fh);
 #include "cvar.h"
 
 extern cvar_t		registered;
-extern qboolean		standard_quake, rogue, hipnotic;
-extern qboolean		fitzmode;
+extern bool		standard_quake, rogue, hipnotic;
+extern bool		fitzmode;
 	/* if true, run in fitzquake mode disabling custom quakespasm hacks */
 
 

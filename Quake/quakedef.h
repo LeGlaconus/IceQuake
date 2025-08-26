@@ -289,7 +289,7 @@ extern	cvar_t		sys_nostdout;
 extern	cvar_t		developer;
 extern	cvar_t		max_edicts; //johnfitz
 
-extern	qboolean	host_initialized;	// true if into command execution
+extern	bool	host_initialized;	// true if into command execution
 extern	double		host_frametime;
 extern	byte		*host_colormap;
 extern	int		host_framecount;	// incremented every frame, never reset
@@ -322,7 +322,7 @@ FUNC_NORETURN void Host_EndGame (const char *message, ...) FUNC_PRINTF(1,2);
 void Host_Frame (float time);
 void Host_Quit_f ();
 void Host_ClientCommands (const char *fmt, ...) FUNC_PRINTF(1,2);
-void Host_ShutdownServer (qboolean crash);
+void Host_ShutdownServer (bool crash);
 void Host_WriteConfiguration ();
 void Host_Resetdemos ();
 
@@ -339,7 +339,7 @@ extern int		current_skill;	// skill level for currently loaded level (in case
 					//  the user changes the cvar while the level is
 					//  running, this reflects the level actually in use)
 
-extern qboolean		isDedicated;
+extern bool		isDedicated;
 
 extern int		minimum_memory;
 

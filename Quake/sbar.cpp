@@ -46,7 +46,7 @@ static qpic_t		*sb_face_quad;
 static qpic_t		*sb_face_invuln;
 static qpic_t		*sb_face_invis_invuln;
 
-static qboolean	sb_showscores;
+static bool	sb_showscores;
 
 int		sb_lines;			// scan lines to draw
 

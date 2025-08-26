@@ -345,7 +345,7 @@ gltexture_t *TexMgr_NewTexture ()
 static void GL_DeleteTexture (gltexture_t *texture);
 
 //ericw -- workaround for preventing TexMgr_FreeTexture during TexMgr_ReloadImages
-static qboolean in_reload_images;
+static bool in_reload_images;
 
 /*
 ================
@@ -827,7 +827,7 @@ static unsigned *TexMgr_MipMapH (unsigned *data, int width, int height)
 TexMgr_ResampleTexture -- bilinear resample
 ================
 */
-static unsigned *TexMgr_ResampleTexture (unsigned *in, int inwidth, int inheight, qboolean alpha)
+static unsigned *TexMgr_ResampleTexture (unsigned *in, int inwidth, int inheight, bool alpha)
 {
 	byte *nwpx, *nepx, *swpx, *sepx, *dest;
 	unsigned xfrac, yfrac, x, y, modx, mody, imodx, imody, injump, outjump;
@@ -1158,7 +1158,7 @@ TexMgr_LoadImage8 -- handles 8bit source data, then passes it to LoadImage32
 static void TexMgr_LoadImage8 (gltexture_t *glt, byte *data, unsigned int *usepal)
 {
 	extern cvar_t gl_fullbrights;
-	qboolean padw = false, padh = false;
+	bool padw = false, padh = false;
 	byte padbyte = 0;
 	int i;
 
@@ -1256,7 +1256,7 @@ TexMgr_LoadLightmap -- handles lightmap data
 */
 static void TexMgr_LoadLightmap (gltexture_t *glt, byte *data)
 {
-	const qboolean wide10bits = !!r_lightmapwide.value;
+	const bool wide10bits = !!r_lightmapwide.value;
 	const GLenum type = wide10bits ? GL_UNSIGNED_INT_10_10_10_2 : GL_UNSIGNED_BYTE;
 	const GLint internalfmt = wide10bits ? GL_RGB10_A2 : lightmap_bytes;
 
@@ -1556,7 +1556,7 @@ void TexMgr_ReloadNobrightImages ()
 
 static GLuint	currenttexture[3] = {GL_UNUSED_TEXTURE, GL_UNUSED_TEXTURE, GL_UNUSED_TEXTURE}; // to avoid unnecessary texture sets
 static GLenum	currenttarget = GL_TEXTURE0_ARB;
-qboolean	mtexenabled = false;
+bool	mtexenabled = false;
 
 /*
 ================

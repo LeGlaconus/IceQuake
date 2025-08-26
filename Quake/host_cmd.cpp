@@ -1376,15 +1376,15 @@ static void Host_Name_f ()
 	MSG_WriteString (&sv.reliable_datagram, host_client->name);
 }
 
-static void Host_Say(qboolean teamonly)
+static void Host_Say(bool teamonly)
 {
 	int		j;
 	client_t	*client;
 	client_t	*save;
 	const char	*p;
 	char		text[MAXCMDLINE], *p2;
-	qboolean	quoted;
-	qboolean	fromServer = false;
+	bool	quoted;
+	bool	fromServer = false;
 
 	if (cmd_source == src_command)
 	{
@@ -1470,7 +1470,7 @@ static void Host_Tell_f()
 	client_t	*save;
 	const char	*p;
 	char		text[MAXCMDLINE], *p2;
-	qboolean	quoted;
+	bool	quoted;
 
 	if (cmd_source == src_command)
 	{
@@ -1818,7 +1818,7 @@ static void Host_Kick_f ()
 	const char	*message = NULL;
 	client_t	*save;
 	int		i;
-	qboolean	byNumber = false;
+	bool	byNumber = false;
 
 	if (cmd_source == src_command)
 	{

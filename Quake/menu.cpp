@@ -80,12 +80,12 @@ void M_Main_Key (int key);
 	void M_Help_Key (int key);
 	void M_Quit_Key (int key);
 
-qboolean	m_entersound;		// play after drawing a frame, so caching
+bool	m_entersound;		// play after drawing a frame, so caching
 								// won't disrupt the sound
-qboolean	m_recursiveDraw;
+bool	m_recursiveDraw;
 
 enum m_state_e	m_return_state;
-qboolean	m_return_onerror;
+bool	m_return_onerror;
 char		m_return_reason [32];
 
 #define StartingGame	(m_multiplayer_cursor == 1)
@@ -858,7 +858,7 @@ void M_Setup_Char (int k)
 }
 
 
-qboolean M_Setup_TextEntry (void)
+bool M_Setup_TextEntry (void)
 {
 	return (setup_cursor == 0 || setup_cursor == 1);
 }
@@ -1365,7 +1365,7 @@ const char *bindnames[][2] =
 #define	NUMCOMMANDS	Q_COUNTOF(bindnames)
 
 static int	keys_cursor;
-static qboolean	bind_grab;
+static bool	bind_grab;
 
 void M_Menu_Keys_f (void)
 {
@@ -1613,7 +1613,7 @@ void M_Help_Key (int key)
 
 int		msgNumber;
 enum m_state_e	m_quit_prevstate;
-qboolean	wasInMenus;
+bool	wasInMenus;
 
 void M_Menu_Quit_f (void)
 {
@@ -1681,7 +1681,7 @@ void M_Quit_Char (int key)
 }
 
 
-qboolean M_Quit_TextEntry (void)
+bool M_Quit_TextEntry (void)
 {
 	return true;
 }
@@ -1928,7 +1928,7 @@ void M_LanConfig_Char (int key)
 }
 
 
-qboolean M_LanConfig_TextEntry (void)
+bool M_LanConfig_TextEntry (void)
 {
 	return (lanConfig_cursor == 0 || lanConfig_cursor == 2);
 }
@@ -2083,7 +2083,7 @@ episode_t	rogueepisodes[] =
 int	startepisode;
 int	startlevel;
 int maxplayers;
-qboolean m_serverInfoMessage = false;
+bool m_serverInfoMessage = false;
 double m_serverInfoMessageTime;
 
 void M_Menu_GameOptions_f (void)
@@ -2390,7 +2390,7 @@ void M_GameOptions_Key (int key)
 //=============================================================================
 /* SEARCH MENU */
 
-qboolean	searchComplete = false;
+bool	searchComplete = false;
 double		searchCompleteTime;
 
 void M_Menu_Search_f (void)
@@ -2452,7 +2452,7 @@ void M_Search_Key (int key)
 /* SLIST MENU */
 
 int		slist_cursor;
-qboolean slist_sorted;
+bool slist_sorted;
 
 void M_Menu_ServerList_f (void)
 {
@@ -2767,7 +2767,7 @@ void M_Charinput (int key)
 }
 
 
-qboolean M_TextEntry (void)
+bool M_TextEntry (void)
 {
 	switch (m_state)
 	{

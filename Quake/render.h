@@ -62,7 +62,7 @@ enum
 
 struct entity_t
 {
-	qboolean				forcelink;		// model changed
+	bool				forcelink;		// model changed
 
 	int						update_type;
 

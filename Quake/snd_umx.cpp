@@ -340,7 +340,7 @@ static int process_upkg (fshandle_t *f, int32_t *ofs, int32_t *objsize)
 	return probe_umx(f, &header, ofs, objsize);
 }
 
-static qboolean S_UMX_CodecInitialize ()
+static bool S_UMX_CodecInitialize ()
 {
 	return true;
 }
@@ -349,7 +349,7 @@ static void S_UMX_CodecShutdown ()
 {
 }
 
-static qboolean S_UMX_CodecOpenStream (snd_stream_t *stream)
+static bool S_UMX_CodecOpenStream (snd_stream_t *stream)
 {
 	int type;
 	int32_t ofs = 0, size = 0;

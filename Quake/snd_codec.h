@@ -50,12 +50,12 @@ struct snd_codec_t;
 struct snd_stream_t
 {
 	fshandle_t fh;
-	qboolean pak;
+	bool pak;
 	char name[MAX_QPATH];	/* name of the source file */
 	snd_info_t info;
 	stream_status_t status;
 	snd_codec_t *codec;	/* codec handling this stream */
-	qboolean loop;
+	bool loop;
 	void *priv;		/* data private to the codec. */
 };
 
@@ -67,14 +67,14 @@ void S_CodecShutdown ();
  * are reponsible for attaching any path to the filename */
 
 snd_stream_t *S_CodecOpenStreamType (const char *filename, unsigned int type,
-							  qboolean loop);
+							  bool loop);
 	/* Decides according to the required type. */
 
-snd_stream_t *S_CodecOpenStreamAny (const char *filename, qboolean loop);
+snd_stream_t *S_CodecOpenStreamAny (const char *filename, bool loop);
 	/* Decides according to file extension. if the
 	 * name has no extension, try all available. */
 
-snd_stream_t *S_CodecOpenStreamExt (const char *filename, qboolean loop);
+snd_stream_t *S_CodecOpenStreamExt (const char *filename, bool loop);
 	/* Decides according to file extension. the name
 	 * MUST have an extension. */
 
@@ -83,7 +83,7 @@ int S_CodecReadStream (snd_stream_t *stream, int bytes, void *buffer);
 int S_CodecRewindStream (snd_stream_t *stream);
 int S_CodecJumpToOrder (snd_stream_t *stream, int to);
 
-snd_stream_t *S_CodecUtilOpen(const char *filename, snd_codec_t *codec, qboolean loop);
+snd_stream_t *S_CodecUtilOpen(const char *filename, snd_codec_t *codec, bool loop);
 void S_CodecUtilClose(snd_stream_t **stream);
 
 enum

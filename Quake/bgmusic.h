@@ -25,10 +25,10 @@
 #ifndef _BGMUSIC_H_
 #define _BGMUSIC_H_
 
-extern qboolean	bgmloop;
+extern bool		bgmloop;
 extern cvar_t	bgm_extmusic;
 
-qboolean BGM_Init ();
+bool BGM_Init ();
 void BGM_Shutdown ();
 
 void BGM_Play (const char *filename);
@@ -37,7 +37,7 @@ void BGM_Update ();
 void BGM_Pause ();
 void BGM_Resume ();
 
-void BGM_PlayCDtrack (byte track, qboolean looping);
+void BGM_PlayCDtrack (byte track, bool looping);
 
 #endif	/* _BGMUSIC_H_ */
 

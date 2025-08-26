@@ -48,7 +48,7 @@ static void S_MODPLUG_SetSettings (snd_stream_t *stream)
 	}
 }
 
-static qboolean S_MODPLUG_CodecInitialize ()
+static bool S_MODPLUG_CodecInitialize ()
 {
 	return true;
 }
@@ -57,7 +57,7 @@ static void S_MODPLUG_CodecShutdown ()
 {
 }
 
-static qboolean S_MODPLUG_CodecOpenStream (snd_stream_t *stream)
+static bool S_MODPLUG_CodecOpenStream (snd_stream_t *stream)
 {
 /* need to load the whole file into memory and pass it to libmodplug */
 	byte *moddata;

@@ -152,9 +152,9 @@ void CFG_CloseConfig ()
 
 int CFG_OpenConfig (const char *cfg_name)
 {
-	FILE	*f;
+	FILE		*f;
 	long		length;
-	qboolean	pak;
+	bool		pak;
 
 	CFG_CloseConfig ();
 

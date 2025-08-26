@@ -170,8 +170,8 @@ extern	float	load_subdivide_size; //johnfitz -- remember what subdivide_size val
 extern int		gl_stencilbits;
 
 // Multitexture
-extern	qboolean	mtexenabled;
-extern	qboolean	gl_mtexable;
+extern	bool	mtexenabled;
+extern	bool	gl_mtexable;
 extern PFNGLMULTITEXCOORD2FARBPROC  GL_MTexCoord2fFunc;
 extern PFNGLACTIVETEXTUREARBPROC    GL_SelectTextureFunc;
 extern PFNGLCLIENTACTIVETEXTUREARBPROC	GL_ClientActiveTextureFunc;
@@ -181,7 +181,7 @@ extern GLint		gl_max_texture_units; //ericw
 #define	GL_TEXTURE_MAX_ANISOTROPY_EXT		0x84FE
 #define	GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT	0x84FF
 extern	float		gl_max_anisotropy;
-extern	qboolean	gl_anisotropy_able;
+extern	bool	gl_anisotropy_able;
 
 //ericw -- VBO
 extern PFNGLBINDBUFFERARBPROC  GL_BindBufferFunc;
@@ -189,7 +189,7 @@ extern PFNGLBUFFERDATAARBPROC  GL_BufferDataFunc;
 extern PFNGLBUFFERSUBDATAARBPROC  GL_BufferSubDataFunc;
 extern PFNGLDELETEBUFFERSARBPROC  GL_DeleteBuffersFunc;
 extern PFNGLGENBUFFERSARBPROC  GL_GenBuffersFunc;
-extern	qboolean	gl_vbo_able;
+extern	bool	gl_vbo_able;
 //ericw
 
 //ericw -- GLSL
@@ -243,16 +243,16 @@ extern QS_PFNGLUNIFORM1IPROC GL_Uniform1iFunc;
 extern QS_PFNGLUNIFORM1FPROC GL_Uniform1fFunc;
 extern QS_PFNGLUNIFORM3FPROC GL_Uniform3fFunc;
 extern QS_PFNGLUNIFORM4FPROC GL_Uniform4fFunc;
-extern	qboolean	gl_glsl_able;
-extern	qboolean	gl_glsl_gamma_able;
-extern	qboolean	gl_glsl_alias_able;
+extern	bool	gl_glsl_able;
+extern	bool	gl_glsl_gamma_able;
+extern	bool	gl_glsl_alias_able;
 // ericw --
 
 //mipmapped warp textures
 extern QS_PFNGENERATEMIPMAP GL_GenerateMipmap;
 
 //ericw -- NPOT texture support
-extern	qboolean	gl_texture_NPOT;
+extern	bool	gl_texture_NPOT;
 
 //johnfitz -- polygon offset
 #define OFFSET_BMODEL 1
@@ -266,7 +266,7 @@ void GL_PolygonOffset (int);
 #ifndef GL_UNSIGNED_INT_10_10_10_2
 #define GL_UNSIGNED_INT_10_10_10_2 0x8036
 #endif
-extern qboolean gl_packed_pixels;
+extern bool gl_packed_pixels;
 
 //johnfitz -- GL_EXT_texture_env_combine
 //the values for GL_ARB_ are identical
@@ -281,8 +281,8 @@ extern qboolean gl_packed_pixels;
 #define GL_SOURCE1_RGB_EXT	0x8581
 #define GL_SOURCE0_ALPHA_EXT	0x8588
 #define GL_SOURCE1_ALPHA_EXT	0x8589
-extern qboolean gl_texture_env_combine;
-extern qboolean gl_texture_env_add; // for GL_EXT_texture_env_add
+extern bool gl_texture_env_combine;
+extern bool gl_texture_env_add; // for GL_EXT_texture_env_add
 
 //johnfitz -- rendering statistics
 extern int rs_brushpolys, rs_aliaspolys, rs_skypolys;
@@ -328,7 +328,7 @@ struct lightmap_t
 {
 	gltexture_t *texture;
 	glpoly_t	*polys;
-	qboolean	modified;
+	bool	modified;
 	glRect_t	rectchange;
 
 	// the lightmap texture data needs to be kept in
@@ -340,7 +340,7 @@ extern int lightmap_count;	//allocated lightmaps
 
 extern int gl_warpimagesize; //johnfitz -- for water warp
 
-extern qboolean r_drawflat_cheatsafe, r_fullbright_cheatsafe, r_lightmap_cheatsafe, r_drawworld_cheatsafe; //johnfitz
+extern bool r_drawflat_cheatsafe, r_fullbright_cheatsafe, r_lightmap_cheatsafe, r_drawworld_cheatsafe; //johnfitz
 
 struct glsl_attrib_binding_t
 {
@@ -370,9 +370,9 @@ void R_NewGame (void);
 
 void R_AnimateLight (void);
 void R_MarkSurfaces (void);
-qboolean R_CullBox (vec3_t emins, vec3_t emaxs);
+bool R_CullBox (vec3_t emins, vec3_t emaxs);
 void R_StoreEfrags (efrag_t **ppefrag);
-qboolean R_CullModelForEntity (entity_t *e);
+bool R_CullModelForEntity (entity_t *e);
 void R_RotateForEntity (vec3_t origin, vec3_t angles, unsigned char scale);
 void R_MarkLights (dlight_t *light, int num, mnode_t *node);
 

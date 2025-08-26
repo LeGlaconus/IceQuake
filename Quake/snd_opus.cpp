@@ -74,7 +74,7 @@ static const OpusFileCallbacks opc_qfs =
 	(int (*)(void *))			opc_fclose
 };
 
-static qboolean S_OPUS_CodecInitialize ()
+static bool S_OPUS_CodecInitialize ()
 {
 	return true;
 }
@@ -83,7 +83,7 @@ static void S_OPUS_CodecShutdown ()
 {
 }
 
-static qboolean S_OPUS_CodecOpenStream (snd_stream_t *stream)
+static bool S_OPUS_CodecOpenStream (snd_stream_t *stream)
 {
 	OggOpusFile *opFile;
 	const OpusHead *op_info;

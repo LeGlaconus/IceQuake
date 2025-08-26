@@ -72,7 +72,7 @@ void R_ChainSurface (msurface_t *surf, texchain_t chain)
 R_BackFaceCull -- johnfitz -- returns true if the surface is facing away from vieworg
 ================
 */
-qboolean R_BackFaceCull (msurface_t *surf)
+bool R_BackFaceCull (msurface_t *surf)
 {
 	double dot;
 
@@ -98,7 +98,7 @@ void R_MarkSurfaces ()
 	mleaf_t		*leaf;
 	msurface_t	*surf, **mark;
 	int			i, j;
-	qboolean	nearwaterportal;
+	bool	nearwaterportal;
 
 	// clear lightmap chains
 	for (i=0 ; i<lightmap_count ; i++)
@@ -289,7 +289,7 @@ void R_DrawTextureChains_Glow (qmodel_t *model, entity_t *ent, texchain_t chain)
 	msurface_t	*s;
 	texture_t	*t;
 	gltexture_t	*glt;
-	qboolean	bound;
+	bool	bound;
 
 	for (i=0 ; i<model->numtextures ; i++)
 	{
@@ -410,7 +410,7 @@ void R_DrawTextureChains_Multitexture (qmodel_t *model, entity_t *ent, texchain_
 	msurface_t	*s;
 	texture_t	*t;
 	float		*v;
-	qboolean	bound;
+	bool	bound;
 
 	for (i=0 ; i<model->numtextures ; i++)
 	{
@@ -463,7 +463,7 @@ void R_DrawTextureChains_NoTexture (qmodel_t *model, texchain_t chain)
 	int			i;
 	msurface_t	*s;
 	texture_t	*t;
-	qboolean	bound;
+	bool	bound;
 
 	for (i=0 ; i<model->numtextures ; i++)
 	{
@@ -497,7 +497,7 @@ void R_DrawTextureChains_TextureOnly (qmodel_t *model, entity_t *ent, texchain_t
 	int			i;
 	msurface_t	*s;
 	texture_t	*t;
-	qboolean	bound;
+	bool	bound;
 
 	for (i=0 ; i<model->numtextures ; i++)
 	{
@@ -576,11 +576,11 @@ void R_DrawTextureChains_Water (qmodel_t *model, entity_t *ent, texchain_t chain
 	msurface_t	*s;
 	texture_t	*t;
 	glpoly_t	*p;
-	qboolean	bound;
+	bool	bound;
 	float entalpha;
 	int		lastlightmap;
-	qboolean	has_lit_water;
-	qboolean	has_unlit_water;
+	bool	has_lit_water;
+	bool	has_unlit_water;
 
 	if (r_drawflat_cheatsafe || r_lightmap_cheatsafe) // ericw -- !r_drawworld_cheatsafe check moved to R_DrawWorld_Water ()
 		return;
@@ -920,7 +920,7 @@ void R_DrawTextureChains_GLSL (qmodel_t *model, entity_t *ent, texchain_t chain)
 	int			i;
 	msurface_t	*s;
 	texture_t	*t;
-	qboolean	bound;
+	bool	bound;
 	int		lastlightmap;
 	gltexture_t	*fullbright = NULL;
 
